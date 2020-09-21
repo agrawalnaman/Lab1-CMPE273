@@ -291,7 +291,23 @@ app.post("/updateCustomerProfile",function(req,res){
     res.status(400).send("Unsuccessful To update details");
     }
     else{
-        res.status(200).send("UPDATED");
+        res.status(200).send(" Customer UPDATED");
+      }
+    });
+
+});
+
+//Route to update Customer Profile
+app.post("/updateRestaurantProfile",function(req,res){
+  console.log("Inside Update Restaurant profile section");
+  var sql = "UPDATE Restaurants SET Name= ?,Email= ?,Password=?,Contact=?,Location=?,Description=?,Timings=?,PictureOfRestaurants=?,PicturesOfDishes=? WHERE idRestaurants = ? ";
+  con.query(sql,[req.body.name,req.body.email,req.body.password,req.body.contact,req.body.location,req.body.description,req.body.timings,req.body.pictureofrestaurants,req.body.picturesofdishes,req.body.idRestaurants], function (err, result) {
+    if (err){
+    console.log('SQL Error:',err);
+    res.status(400).send("Unsuccessful To update details");
+    }
+    else{
+        res.status(200).send("Restaurant UPDATED");
       }
     });
 

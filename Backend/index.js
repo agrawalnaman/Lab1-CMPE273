@@ -297,7 +297,7 @@ app.post("/updateCustomerProfile",function(req,res){
 
 });
 
-//Route to update Customer Profile
+//Route to update Restaurant Profile
 app.post("/updateRestaurantProfile",function(req,res){
   console.log("Inside Update Restaurant profile section");
   var sql = "UPDATE Restaurants SET Name= ?,Email= ?,Password=?,Contact=?,Location=?,Description=?,Timings=?,PictureOfRestaurants=?,PicturesOfDishes=? WHERE idRestaurants = ? ";
@@ -313,6 +313,39 @@ app.post("/updateRestaurantProfile",function(req,res){
 
 });
 
+//Route to list of orders by customers for a restaurant
+app.get("/getRestaurantOrders", function (req, res) {
+  console.log("Inside Restaurant orders section");
+  var idRestaurants = req.body.idRestaurants;
+  console.log(idRestaurants);
+  var sql = "SELECT * FROM Orders WHERE restaurantID = ? order by customerID";
+  con.query(sql,[idRestaurants], function (err, result) {
+      if (err){
+      console.log('SQL Error:',err);
+      res.status(400).send("Unsuccessful To orders list");
+      }
+      else{
+          res.status(200).send(result);
+        }
+      });
+});
+
+//Route to list of orders by restaurants for a customer
+app.get("/getCustomerOrders", function (req, res) {
+  console.log("Inside Customers orders section");
+  var idCustomers = req.body.idCustomers;
+  console.log(idCustomers);
+  var sql = "SELECT * FROM Orders WHERE customerID = ? order by restaurantID";
+  con.query(sql,[idCustomers], function (err, result) {
+      if (err){
+      console.log('SQL Error:',err);
+      res.status(400).send("Unsuccessful To orders list");
+      }
+      else{
+          res.status(200).send(result);
+        }
+      });
+});
 
 //start your server on port 3001
 app.listen(3001);

@@ -347,6 +347,22 @@ app.get("/getCustomerOrders", function (req, res) {
       });
 });
 
+//Route to update order status through restaurant
+app.post("/updateOrderStatus",function(req,res){
+  console.log("Inside Update Order Status");
+  var sql = "UPDATE Orders SET orderStatus= ? WHERE idOrders = ? ";
+  con.query(sql,[req.body.orderstatus,req.body.idOrders], function (err, result) {
+    if (err){
+    console.log('SQL Error:',err);
+    res.status(400).send("Unsuccessful To update details");
+    }
+    else{
+        res.status(200).send("Order Status UPDATED");
+      }
+    });
+
+});
+
 //start your server on port 3001
 app.listen(3001);
 console.log("Server Listening on port 3001");

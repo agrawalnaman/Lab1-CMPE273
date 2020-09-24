@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import {Route} from 'react-router-dom';
 import Login from './Login/Login';
 import Home from './Home/Home';
-import Delete from './Delete/Delete';
-import Create from './Create/Create';
 import Navbar from './LandingPage/Navbar';
+import Signup from './Signup/Signup';
+
 //Create a Main Component
 class Main extends Component {
     render(){
@@ -14,8 +14,7 @@ class Main extends Component {
                 <Route path="/" component={Navbar}/>
                 <Route path="/login" component={Login}/>
                 <Route path="/home" component={Home}/>
-                <Route path="/delete" component={Delete}/>
-                <Route path="/create" component={Create}/>
+                <Route path="/signup" component={Signup}/>
             </div>
         )
     }

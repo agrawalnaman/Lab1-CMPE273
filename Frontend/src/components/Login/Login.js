@@ -4,7 +4,7 @@ import axios from "axios";
 import cookie from "react-cookies";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
-import {setUsername,setAuthFlag} from "../../redux/slices/login";
+import {setUsername,setAuthFlag,setCustomerID} from "../../redux/slices/login";
 
 //Define a Login Component
 class Login extends Component {
@@ -18,6 +18,7 @@ class Login extends Component {
       password: "",
       authFlag: false,
       invalidCredentials: "",
+      idCustomers:"",
     };
     //Bind the handlers to this class
     this.usernameChangeHandler = this.usernameChangeHandler.bind(this);
@@ -58,12 +59,20 @@ class Login extends Component {
       .post("http://localhost:3001/customerLogin", data)
       .then((response) => {
         console.log("Status Code : ", response.status);
+        console.log(response.data);
         if (response.status === 200) {
           this.setState({
             authFlag: true,
           });
+          console.log(response.data.idCustomers);
+          this.setState({
+            idCustomers: response.data.idCustomers,
+          });
+          localStorage.setItem("c_id", response.data.idCustomers);
+          this.props.setCustomerID(response.data.idCustomers);
           this.props.setUsername(this.state.username);
           this.props.setAuthFlag(true);
+          
         } else {
           this.setState({
             authFlag: false,
@@ -134,7 +143,7 @@ class Login extends Component {
   }
 }
 
-const mapDispatchToProps = { setUsername,setAuthFlag};
+const mapDispatchToProps = {setUsername,setAuthFlag,setCustomerID};
 
 //export Login Component
 export default connect(null, mapDispatchToProps)(Login);

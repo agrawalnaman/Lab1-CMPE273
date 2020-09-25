@@ -78,9 +78,8 @@ app.post("/customerLogin", function (req, res) {
                   });
           // localStorage.setItem('persona','customer');
           // localStorage.setItem('email',email);
-          res.writeHead(200, {
-          "Content-Type": "text/plain",});
-          res.end("Successful Login");
+          resjson={idCustomers:result[0].idCustomers};
+          res.status(200).send(resjson);
         }
         else{
           console.log('SQL Error:',err);
@@ -267,7 +266,7 @@ app.get("/restaurantProfile", function (req, res) {
 //Route to get Customer Profile
 app.get("/customerProfile", function (req, res) {
   console.log("Inside Customer profile section");
-  var idCustomers = req.body.idCustomers;
+  var idCustomers = req.query.idCustomers;
   console.log(idCustomers);
   var sql = "SELECT * FROM Customers WHERE idCustomers = ?";
   con.query(sql,[idCustomers], function (err, result) {

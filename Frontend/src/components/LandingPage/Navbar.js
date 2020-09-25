@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import cookie from "react-cookies";
 import { Redirect } from "react-router";
-
+import { connect } from "react-redux";
+import {setUsername,setAuthFlag,setCustomerID} from "../../redux/slices/login";
 //create the Navbar Component
 class Navbar extends Component {
   constructor(props) {
@@ -12,6 +13,9 @@ class Navbar extends Component {
   //handle logout to destroy the cookie
   handleLogout = () => {
     cookie.remove("cookie", { path: "/" });
+    this.props.setCustomerID("");
+    this.props.setUsername("");
+    this.props.setAuthFlag(false);
   };
   render() {
     //if Cookie is set render Logout Button
@@ -32,6 +36,12 @@ class Navbar extends Component {
       console.log("Not Able to read cookie");
       navLogin = (
         <ul class="nav navbar-nav navbar-right">
+
+          <li>
+            <Link to="/signup">
+              <span class="glyphicon"></span> Signup
+            </Link>
+          </li>
           <li>
             <Link to="/login">
               <span class="glyphicon glyphicon-log-in"></span> Login
@@ -65,4 +75,8 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar;
+
+const mapDispatchToProps = {setUsername,setAuthFlag,setCustomerID};
+
+//export Navbar Component
+export default connect(null, mapDispatchToProps)(Navbar);

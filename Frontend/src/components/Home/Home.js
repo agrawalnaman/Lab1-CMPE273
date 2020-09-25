@@ -3,35 +3,37 @@ import "../../App.css";
 import axios from "axios";
 import cookie from "react-cookies";
 import { Redirect } from "react-router";
-
+import { connect } from "react-redux";
+//import store from "../../redux/store";
 class Home extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      books: [],
+      "FirstName": "",
+      "LastName": "",
+      "Email": "",
     };
+    
   }
+
   //get the books data from backend
   componentDidMount() {
-    axios.get("http://localhost:3001/home").then((response) => {
+    console.log("PROPS : " , this.props);
+    var data = {params:{idCustomers:+localStorage.getItem("c_id")}};
+    axios.get("http://localhost:3001/customerProfile",data).then((response) => {
       //update the state with the response data
+      console.log(response);
       this.setState({
-        books: this.state.books.concat(response.data),
-      });
+        "FirstName": response.data[0].FirstName,
+        "LastName": response.data[0].LastName,
+        "Email": response.data[0].Email,
+        "Country": response.data[0].Country,
+      })
+      
     });
   }
 
   render() {
-    //iterate over books to create a table row
-    let details = this.state.books.map((book) => {
-      return (
-        <tr>
-          <td>{book.BookID}</td>
-          <td>{book.Title}</td>
-          <td>{book.Author}</td>
-        </tr>
-      );
-    });
     //if not logged in go to login page
     let redirectVar = null;
     if (!cookie.load("cookie")) {
@@ -41,24 +43,21 @@ class Home extends Component {
       <div>
         {redirectVar}
         <div class="container">
-          <h2>List of All Books</h2>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Book ID</th>
-                <th>Title</th>
-                <th>Author</th>
-              </tr>
-            </thead>
-            <tbody>
-              {/*Display the Tbale row based on data recieved*/}
-              {details}
-            </tbody>
-          </table>
-        </div>
+        <h3><label >Email ID : {this.state.Email}</label></h3>
+        <h3><label >First Name : {this.state.FirstName}</label></h3>
+        <h3><label >LastName : {this.state.LastName}</label></h3>
+        <h3><label >Country : {this.state.Country}</label></h3>
+         </div>
       </div>
     );
   }
 }
 //export Home Component
-export default Home;
+// const mapDispatchToProps = {setUsername,setAuthFlag,setCustomerID};
+const mapStateToProps = state => {
+  return {
+    loginState: state.loginState,
+  }
+};
+//export Login Component
+export default connect(mapStateToProps,null)(Home);

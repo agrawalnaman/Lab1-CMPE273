@@ -14,10 +14,6 @@ class Signup extends Component {
     super(props);
     //maintain the state required for this component
     this.state = {
-    //   username: "",
-    //   password: "",
-    //   authFlag: false,
-    //   invalidCredentials: "",
          email:"",
          password:"",
          firstname:"",
@@ -74,6 +70,7 @@ class Signup extends Component {
     //set the with credentials to true
     axios.defaults.withCredentials = true;
     //make a post request with the user data
+    // this.props.signup(data);
     axios
       .post("http://localhost:3001/customerSignUp", data)
       .then((response) => {
@@ -113,7 +110,7 @@ class Signup extends Component {
 
     return (
       <div>
-        { {redirectVar}}
+        { redirectVar}
         <div class="container">
           <div class="signup-form">
           {this.state.idCreated}

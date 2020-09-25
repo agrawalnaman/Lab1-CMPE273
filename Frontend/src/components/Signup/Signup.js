@@ -105,15 +105,15 @@ class Signup extends Component {
 
   render() {
     //redirect based on successful login
-    // let redirectVar = null;
+     let redirectVar = null;
     // let invalidCredentials = null;
-    // if (cookie.load("cookie")) {
-    //   redirectVar = <Redirect to="/home" />;
-    // }
+    if (cookie.load("cookie")) {
+       redirectVar = <Redirect to="/home" />;
+     }
 
     return (
       <div>
-        {/* {redirectVar} */}
+        { {redirectVar}}
         <div class="container">
           <div class="signup-form">
           {this.state.idCreated}

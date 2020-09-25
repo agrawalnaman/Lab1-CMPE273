@@ -3,6 +3,8 @@ import "../../App.css";
 import axios from "axios";
 import cookie from "react-cookies";
 import { Redirect } from "react-router";
+import { connect } from "react-redux";
+import {setUsername,setAuthFlag} from "../../redux/slices/login";
 
 //Define a Login Component
 class Login extends Component {
@@ -60,6 +62,8 @@ class Login extends Component {
           this.setState({
             authFlag: true,
           });
+          this.props.setUsername(this.state.username);
+          this.props.setAuthFlag(true);
         } else {
           this.setState({
             authFlag: false,
@@ -129,5 +133,9 @@ class Login extends Component {
     );
   }
 }
+
+const mapDispatchToProps = { setUsername,setAuthFlag};
+
 //export Login Component
-export default Login;
+export default connect(null, mapDispatchToProps)(Login);
+

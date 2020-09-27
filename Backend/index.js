@@ -78,7 +78,10 @@ app.post("/customerLogin", function (req, res) {
                   });
           // localStorage.setItem('persona','customer');
           // localStorage.setItem('email',email);
-          resjson={idCustomers:result[0].idCustomers};
+          resjson={
+            idCustomers:result[0].idCustomers,
+            password:result[0].Password,
+          };
           res.status(200).send(resjson);
         }
         else{

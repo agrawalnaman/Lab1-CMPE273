@@ -69,6 +69,8 @@ class Login extends Component {
             idCustomers: response.data.idCustomers,
           });
           localStorage.setItem("c_id", response.data.idCustomers);
+          console.log(response.data.password);
+          localStorage.setItem("c_pass", response.data.password);
           this.props.setCustomerID(response.data.idCustomers);
           this.props.setUsername(this.state.username);
           this.props.setAuthFlag(true);

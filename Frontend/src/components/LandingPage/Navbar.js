@@ -16,6 +16,8 @@ class Navbar extends Component {
     this.props.setCustomerID("");
     this.props.setUsername("");
     this.props.setAuthFlag(false);
+    localStorage.removeItem("c_id");
+    localStorage.removeItem("c_pass");
   };
   render() {
     //if Cookie is set render Logout Button

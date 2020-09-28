@@ -56,3 +56,16 @@
 .container-fluid a {
   color: #fff !important;
 }
+
+nav.navbar {
+  background-color: #d32323;
+}
+
+.homepage-hero_logo {
+  width: 160px;
+  height: 30px;
+  padding: 0;
+  margin: 0 auto 48px;
+  background-repeat: no-repeat;
+}
+

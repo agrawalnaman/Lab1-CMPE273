@@ -249,8 +249,8 @@ app.post("/restaurantSignUp", function (req, res) {
 //Route to get restaurant Profile
 app.get("/restaurantProfile", function (req, res) {
   console.log("Inside Restaurant Dashboard");
-  var idRestaurants = req.body.idRestaurants;
-  console.log(idRestaurants);
+  var idRestaurants = req.query.idRestaurants;
+  console.log(req.query);
   var sql = "SELECT * FROM Restaurants WHERE idRestaurants = ?";
   con.query(sql,[idRestaurants], function (err, result) {
       if (err){
@@ -261,6 +261,7 @@ app.get("/restaurantProfile", function (req, res) {
       res.status(400).send("Unsuccessful To fetch details");
       }
       else{
+          console.log("restaurant profile fetched successfully");
           res.status(200).send(result);
         }
       });
@@ -290,7 +291,7 @@ app.post("/updateCustomerProfile",function(req,res){
   con.query(sql,[req.body.firstname,req.body.lastname,req.body.email,req.body.password,req.body.phone,req.body.favourites,req.body.dob,req.body.city,req.body.state,req.body.country,req.body.nickname,req.body.profilepicpath,req.body.idCustomers], function (err, result) {
     if (err){
     console.log('SQL Error:',err);
-    res.status(400).send("Unsuccessful To update details");
+    res.status(205).send("Unsuccessful To update details");
     }
     else{
         res.status(200).send(" Customer UPDATED");
@@ -306,7 +307,7 @@ app.post("/updateRestaurantProfile",function(req,res){
   con.query(sql,[req.body.name,req.body.email,req.body.password,req.body.contact,req.body.location,req.body.description,req.body.timings,req.body.pictureofrestaurants,req.body.picturesofdishes,req.body.idRestaurants], function (err, result) {
     if (err){
     console.log('SQL Error:',err);
-    res.status(400).send("Unsuccessful To update details");
+    res.status(205).send("Unsuccessful To update details");
     }
     else{
         res.status(200).send("Restaurant UPDATED");
@@ -331,6 +332,24 @@ app.get("/getRestaurantOrders", function (req, res) {
         }
       });
 });
+
+//Route to list of reviews for a restaurant
+app.get("/getRestaurantReviews", function (req, res) {
+  console.log("Inside Restaurant orders section");
+  var idRestaurants = req.query.idRestaurants;
+  console.log("reviews for restaurant :",idRestaurants);
+  var sql = "SELECT * FROM Reviews WHERE `restaurantID` = ? order by `customerID`";
+  con.query(sql,[idRestaurants], function (err, result) {
+      if (err){
+      console.log('SQL Error:',err);
+      res.status(400).send("Unsuccessful To find review list");
+      }
+      else{
+          res.status(200).send(result);
+        }
+      });
+});
+
 
 //Route to list of orders by restaurants for a customer
 app.get("/getCustomerOrders", function (req, res) {

@@ -114,7 +114,7 @@ class Home extends Component {
           this.setState({
             profileUpdated: (
               <h3>
-                Connot Update it Now!
+              Email already Exists!
               </h3>
             ),
           });

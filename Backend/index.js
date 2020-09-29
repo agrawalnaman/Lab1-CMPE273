@@ -59,123 +59,124 @@ app.post("/customerLogin", function (req, res) {
   console.log("Req Body : ", req.body);
   var email = req.body.email;
   var sql = "SELECT * FROM Customers WHERE Email = ?";
-  con.query(sql,[email], function (err, result) {
-      if (err){
-      console.log('SQL Error:',err);
+  con.query(sql, [email], function (err, result) {
+    if (err) {
+      console.log('SQL Error:', err);
       res.writeHead(205, {
         "Content-Type": "text/plain",
       });
       res.end("Unsuccessful Login");
+    }
+    else {
+
+      if (result[0] != null && result[0].Password === req.body.password) {
+        console.log("login successfull!");
+        res.cookie("cookie", "admin", {
+          maxAge: 900000,
+          httpOnly: false,
+          path: "/",
+        });
+        // localStorage.setItem('persona','customer');
+        // localStorage.setItem('email',email);
+        resjson = {
+          idCustomers: result[0].idCustomers,
+          password: result[0].Password,
+        };
+        res.status(200).send(resjson);
       }
-      else{
-
-        if(result[0]!=null && result[0].Password===req.body.password){
-          console.log("login successfull!");
-          res.cookie("cookie", "admin", {
-                    maxAge: 900000,
-                    httpOnly: false,
-                    path: "/",
-                  });
-          // localStorage.setItem('persona','customer');
-          // localStorage.setItem('email',email);
-          resjson={
-            idCustomers:result[0].idCustomers,
-            password:result[0].Password,
-          };
-          res.status(200).send(resjson);
-        }
-        else{
-          console.log('SQL Error:',err);
-          res.writeHead(205, {
-            "Content-Type": "text/plain",
-          });
-          res.end("Unsuccessful Login");
-        }
-      }
-    });
-  });
-
-//Route to handle Post Request Call for Restaurant Login
-
-  app.post("/restaurantLogin", function (req, res) {
-    console.log("Inside Restaurant Login Post Request");
-    console.log("Req Body : ", req.body);
-    var email = req.body.email;
-    var sql = "SELECT * FROM Restaurants WHERE Email = ?";
-    con.query(sql,[email], function (err, result) {
-        if (err){
-        console.log('SQL Error:',err);
+      else {
+        console.log('SQL Error:', err);
         res.writeHead(205, {
           "Content-Type": "text/plain",
         });
         res.end("Unsuccessful Login");
-        }
-        else{
-  
-          if(result[0]!=null && result[0].Password===req.body.password){
-            console.log("login successfull!");
-            res.cookie("cookie", "restaurant-admin", {
-                      maxAge: 900000,
-                      httpOnly: false,
-                      path: "/",
-                    });
-            // localStorage.setItem('persona','restaurant');
-            // localStorage.setItem('email',email);
-            res.writeHead(200, {
-            "Content-Type": "text/plain",});
-            res.end("Successful Login");
-          }
-          else{
-            console.log('SQL Error:',err);
-            res.writeHead(205, {
-              "Content-Type": "text/plain",
-            });
-            res.end("Unsuccessful Login");
-          }
-        }
+      }
+    }
+  });
+});
+
+//Route to handle Post Request Call for Restaurant Login
+
+app.post("/restaurantLogin", function (req, res) {
+  console.log("Inside Restaurant Login Post Request");
+  console.log("Req Body : ", req.body);
+  var email = req.body.email;
+  var sql = "SELECT * FROM Restaurants WHERE Email = ?";
+  con.query(sql, [email], function (err, result) {
+    if (err) {
+      console.log('SQL Error:', err);
+      res.writeHead(205, {
+        "Content-Type": "text/plain",
       });
-    });
+      res.end("Unsuccessful Login");
+    }
+    else {
 
-//Route to handle Post Request Call for Customer SignUp
-  app.post("/customerSignUp", function (req, res) {
-    console.log("Inside SignUp Request");
-    console.log("Req Body : ", req.body);
-    var email = req.body.email;
-    var password = req.body.password;
-    var firstName = req.body.firstName;
-    var lastName = req.body.lastName;
-    var sql_findEmail = "SELECT * FROM Customers WHERE Email = ?";
-    var sql_insert = "INSERT INTO Customers (Email,FirstName,LastName,Password) VALUES (?,?,?,?)";
-
-    con.query(sql_findEmail,[email], function (err, result) {
-      if (err){
-        console.log('SQL Error:',err);
+      if (result[0] != null && result[0].Password === req.body.password) {
+        console.log("login successfull!");
+        res.cookie("cookie", "restaurant-admin", {
+          maxAge: 900000,
+          httpOnly: false,
+          path: "/",
+        });
+        // localStorage.setItem('persona','restaurant');
+        // localStorage.setItem('email',email);
+        res.writeHead(200, {
+          "Content-Type": "text/plain",
+        });
+        res.end("Successful Login");
+      }
+      else {
+        console.log('SQL Error:', err);
         res.writeHead(205, {
           "Content-Type": "text/plain",
         });
-        res.end("SignUp failed");
-        }
-        else{
-          if(result[0]==null)
-          {
-            con.query(sql_insert,[email,firstName,lastName,password], function (err, result) {
-              if (err){
-              console.log('SQL Error:',err);
-              res.writeHead(205, {
-                "Content-Type": "text/plain",
-              });
-              res.end("SignUp failed");
-              }
-              else{
-                  console.log("Sigunp successfull!");
-                  res.writeHead(200, {
-                  "Content-Type": "text/plain",});
-                  res.end("SignUP Login");
-          } 
+        res.end("Unsuccessful Login");
+      }
+    }
+  });
+});
+
+//Route to handle Post Request Call for Customer SignUp
+app.post("/customerSignUp", function (req, res) {
+  console.log("Inside SignUp Request");
+  console.log("Req Body : ", req.body);
+  var email = req.body.email;
+  var password = req.body.password;
+  var firstName = req.body.firstName;
+  var lastName = req.body.lastName;
+  var sql_findEmail = "SELECT * FROM Customers WHERE Email = ?";
+  var sql_insert = "INSERT INTO Customers (Email,FirstName,LastName,Password) VALUES (?,?,?,?)";
+
+  con.query(sql_findEmail, [email], function (err, result) {
+    if (err) {
+      console.log('SQL Error:', err);
+      res.writeHead(205, {
+        "Content-Type": "text/plain",
+      });
+      res.end("SignUp failed");
+    }
+    else {
+      if (result[0] == null) {
+        con.query(sql_insert, [email, firstName, lastName, password], function (err, result) {
+          if (err) {
+            console.log('SQL Error:', err);
+            res.writeHead(205, {
+              "Content-Type": "text/plain",
+            });
+            res.end("SignUp failed");
+          }
+          else {
+            console.log("Sigunp successfull!");
+            res.writeHead(200, {
+              "Content-Type": "text/plain",
+            });
+            res.end("SignUP Login");
+          }
         });
       }
-      else{
-        console.log('SQL Error:',err);
+      else {
+        console.log('SQL Error:', err);
         res.writeHead(205, {
           "Content-Type": "text/plain",
         });
@@ -196,42 +197,42 @@ app.post("/restaurantSignUp", function (req, res) {
   var sql_findEmail = "SELECT * FROM Restaurants WHERE Email = ?";
   var sql_insert = "INSERT INTO Restaurants (Email,Name,Password,Location) VALUES (?,?,?,?)";
 
-  con.query(sql_findEmail,[email], function (err, result) {
-    if (err){
-      console.log('SQL Error:',err);
+  con.query(sql_findEmail, [email], function (err, result) {
+    if (err) {
+      console.log('SQL Error:', err);
       res.writeHead(205, {
         "Content-Type": "text/plain",
       });
       res.end("SignUp failed SQL ERROR");
-      }
-      else{
-        if(result[0]==null)
-        {
-          con.query(sql_insert,[email,Name,password,location], function (err, result) {
-            if (err){
-            console.log('SQL Error:',err);
+    }
+    else {
+      if (result[0] == null) {
+        con.query(sql_insert, [email, Name, password, location], function (err, result) {
+          if (err) {
+            console.log('SQL Error:', err);
             res.writeHead(205, {
               "Content-Type": "text/plain",
             });
             res.end("SignUp failed");
-            }
-            else{
-                console.log("Sigunp successfull!");
-                res.writeHead(200, {
-                "Content-Type": "text/plain",});
-                res.end("SignUp Successful");
-        } 
-      });
+          }
+          else {
+            console.log("Sigunp successfull!");
+            res.writeHead(200, {
+              "Content-Type": "text/plain",
+            });
+            res.end("SignUp Successful");
+          }
+        });
+      }
+      else {
+        console.log('SQL Error:', err);
+        res.writeHead(205, {
+          "Content-Type": "text/plain",
+        });
+        res.end("Email already Exists");
+      }
     }
-    else{
-      console.log('SQL Error:',err);
-      res.writeHead(205, {
-        "Content-Type": "text/plain",
-      });
-      res.end("Email already Exists");
-    }
-  }
-});
+  });
 });
 
 
@@ -239,12 +240,12 @@ app.post("/restaurantSignUp", function (req, res) {
 
 
 
-  // con.query("asdasd").then((result) => {
+// con.query("asdasd").then((result) => {
 
-  // }).catch()
+// }).catch()
 
-  // const results = await con.query("asdasdasd");
-  
+// const results = await con.query("asdasdasd");
+
 
 //Route to get restaurant Profile
 app.get("/restaurantProfile", function (req, res) {
@@ -252,19 +253,19 @@ app.get("/restaurantProfile", function (req, res) {
   var idRestaurants = req.query.idRestaurants;
   console.log(req.query);
   var sql = "SELECT * FROM Restaurants WHERE idRestaurants = ?";
-  con.query(sql,[idRestaurants], function (err, result) {
-      if (err){
-      console.log('SQL Error:',err);
+  con.query(sql, [idRestaurants], function (err, result) {
+    if (err) {
+      console.log('SQL Error:', err);
       // res.writeHead(205, {
       //   "Content-Type": "text/plain",
       // });
       res.status(400).send("Unsuccessful To fetch details");
-      }
-      else{
-          console.log("restaurant profile fetched successfully");
-          res.status(200).send(result);
-        }
-      });
+    }
+    else {
+      console.log("restaurant profile fetched successfully");
+      res.status(200).send(result);
+    }
+  });
 });
 
 //Route to get Customer Profile
@@ -273,64 +274,95 @@ app.get("/customerProfile", function (req, res) {
   var idCustomers = req.query.idCustomers;
   console.log(idCustomers);
   var sql = "SELECT * FROM Customers WHERE idCustomers = ?";
-  con.query(sql,[idCustomers], function (err, result) {
-      if (err){
-      console.log('SQL Error:',err);
+  con.query(sql, [idCustomers], function (err, result) {
+    if (err) {
+      console.log('SQL Error:', err);
       res.status(400).send("Unsuccessful To fetch details");
-      }
-      else{
-          res.status(200).send(result);
-        }
+    }
+    else {
+      res.status(200).send(result);
+    }
+  });
+});
+
+//Route to create a new Dish for a restaurant
+
+app.post("/restaurantAddNewDish", function (req, res) {
+  console.log("Inside SignUp Request");
+  console.log("Req Body : ", req.body);
+  var idRestaurants = req.body.idRestaurants;
+  var dishName = req.body.dishName;
+  var price = req.body.price;
+  var category = req.body.category;
+  var imageURL = req.body.imageURL;
+  var ingredients = req.body.ingredients;
+  var sql_insert = "INSERT INTO Dishes (Name,Price,Ingredients,Image,Category,restaurantID) VALUES (?,?,?,?,?,?);";
+  con.query(sql_insert, [dishName,price,ingredients,imageURL,category,idRestaurants], function (err, result) {
+    if (err) {
+      console.log('SQL Error:', err);
+      res.writeHead(205, {
+        "Content-Type": "text/plain",
       });
+      res.end("failed to add new dish");
+    }
+    else {
+      console.log("add new dish successfull!");
+      res.writeHead(200, {
+        "Content-Type": "text/plain",
+      });
+      res.end("added new dish");
+    }
+  });
+
 });
 
 //Route to update Customer Profile
-app.post("/updateCustomerProfile",function(req,res){
+app.post("/updateCustomerProfile", function (req, res) {
   console.log("Inside Update customer profile section");
   var sql = "UPDATE Customers SET FirstName= ?, LastName= ?,Email= ?,Password=?,Phone=?,Favourites=?,DOB=?,City=?,State=?,Country=?,NickName=?,ProfilePicPath=? WHERE idCustomers = ? ";
-  con.query(sql,[req.body.firstname,req.body.lastname,req.body.email,req.body.password,req.body.phone,req.body.favourites,req.body.dob,req.body.city,req.body.state,req.body.country,req.body.nickname,req.body.profilepicpath,req.body.idCustomers], function (err, result) {
-    if (err){
-    console.log('SQL Error:',err);
-    res.status(205).send("Unsuccessful To update details");
+  con.query(sql, [req.body.firstname, req.body.lastname, req.body.email, req.body.password, req.body.phone, req.body.favourites, req.body.dob, req.body.city, req.body.state, req.body.country, req.body.nickname, req.body.profilepicpath, req.body.idCustomers], function (err, result) {
+    if (err) {
+      console.log('SQL Error:', err);
+      res.status(205).send("Unsuccessful To update details");
     }
-    else{
-        res.status(200).send(" Customer UPDATED");
-      }
-    });
+    else {
+      res.status(200).send(" Customer UPDATED");
+    }
+  });
 
 });
 
 //Route to update Restaurant Profile
-app.post("/updateRestaurantProfile",function(req,res){
+app.post("/updateRestaurantProfile", function (req, res) {
   console.log("Inside Update Restaurant profile section");
   var sql = "UPDATE Restaurants SET Name= ?,Email= ?,Password=?,Contact=?,Location=?,Description=?,Timings=?,PictureOfRestaurants=?,PicturesOfDishes=? WHERE idRestaurants = ? ";
-  con.query(sql,[req.body.name,req.body.email,req.body.password,req.body.contact,req.body.location,req.body.description,req.body.timings,req.body.pictureofrestaurants,req.body.picturesofdishes,req.body.idRestaurants], function (err, result) {
-    if (err){
-    console.log('SQL Error:',err);
-    res.status(205).send("Unsuccessful To update details");
+  con.query(sql, [req.body.name, req.body.email, req.body.password, req.body.contact, req.body.location, req.body.description, req.body.timings, req.body.pictureofrestaurants, req.body.picturesofdishes, req.body.idRestaurants], function (err, result) {
+    if (err) {
+      console.log('SQL Error:', err);
+      res.status(205).send("Unsuccessful To update details");
     }
-    else{
-        res.status(200).send("Restaurant UPDATED");
-      }
-    });
+    else {
+      res.status(200).send("Restaurant UPDATED");
+    }
+  });
 
 });
 
 //Route to list of orders by customers for a restaurant
 app.get("/getRestaurantOrders", function (req, res) {
   console.log("Inside Restaurant orders section");
-  var idRestaurants = req.body.idRestaurants;
+  var idRestaurants = req.query.idRestaurants;
   console.log(idRestaurants);
   var sql = "SELECT * FROM Orders WHERE restaurantID = ? order by customerID";
-  con.query(sql,[idRestaurants], function (err, result) {
-      if (err){
-      console.log('SQL Error:',err);
+  con.query(sql, [idRestaurants], function (err, result) {
+    if (err) {
+      console.log('SQL Error:', err);
       res.status(400).send("Unsuccessful To orders list");
-      }
-      else{
-          res.status(200).send(result);
-        }
-      });
+    }
+    else {
+      res.status(200).send(result);
+    }
+  });
 });
 
 //Route to list of orders by customers for a restaurant
@@ -339,15 +371,15 @@ app.get("/getRestaurantDishes", function (req, res) {
   var idRestaurants = req.query.idRestaurants;
   console.log(idRestaurants);
   var sql = "SELECT * FROM Dishes WHERE restaurantID = ? order by Category";
-  con.query(sql,[idRestaurants], function (err, result) {
-      if (err){
-      console.log('SQL Error:',err);
+  con.query(sql, [idRestaurants], function (err, result) {
+    if (err) {
+      console.log('SQL Error:', err);
       res.status(400).send("Unsuccessful To orders list");
-      }
-      else{
-          res.status(200).send(result);
-        }
-      });
+    }
+    else {
+      res.status(200).send(result);
+    }
+  });
 });
 
 
@@ -355,17 +387,17 @@ app.get("/getRestaurantDishes", function (req, res) {
 app.get("/getRestaurantReviews", function (req, res) {
   console.log("Inside Restaurant orders section");
   var idRestaurants = req.query.idRestaurants;
-  console.log("reviews for restaurant :",idRestaurants);
+  console.log("reviews for restaurant :", idRestaurants);
   var sql = "SELECT * FROM Reviews WHERE `restaurantID` = ? order by `customerID`";
-  con.query(sql,[idRestaurants], function (err, result) {
-      if (err){
-      console.log('SQL Error:',err);
+  con.query(sql, [idRestaurants], function (err, result) {
+    if (err) {
+      console.log('SQL Error:', err);
       res.status(400).send("Unsuccessful To find review list");
-      }
-      else{
-          res.status(200).send(result);
-        }
-      });
+    }
+    else {
+      res.status(200).send(result);
+    }
+  });
 });
 
 
@@ -375,30 +407,30 @@ app.get("/getCustomerOrders", function (req, res) {
   var idCustomers = req.body.idCustomers;
   console.log(idCustomers);
   var sql = "SELECT * FROM Orders WHERE customerID = ? order by restaurantID";
-  con.query(sql,[idCustomers], function (err, result) {
-      if (err){
-      console.log('SQL Error:',err);
+  con.query(sql, [idCustomers], function (err, result) {
+    if (err) {
+      console.log('SQL Error:', err);
       res.status(400).send("Unsuccessful To orders list");
-      }
-      else{
-          res.status(200).send(result);
-        }
-      });
+    }
+    else {
+      res.status(200).send(result);
+    }
+  });
 });
 
 //Route to update order status through restaurant
-app.post("/updateOrderStatus",function(req,res){
+app.post("/updateOrderStatus", function (req, res) {
   console.log("Inside Update Order Status");
   var sql = "UPDATE Orders SET orderStatus= ? WHERE idOrders = ? ";
-  con.query(sql,[req.body.orderstatus,req.body.idOrders], function (err, result) {
-    if (err){
-    console.log('SQL Error:',err);
-    res.status(400).send("Unsuccessful To update details");
+  con.query(sql, [req.body.orderstatus, req.body.idOrders], function (err, result) {
+    if (err) {
+      console.log('SQL Error:', err);
+      res.status(400).send("Unsuccessful To update details");
     }
-    else{
-        res.status(200).send("Order Status UPDATED");
-      }
-    });
+    else {
+      res.status(200).send("Order Status UPDATED");
+    }
+  });
 
 });
 

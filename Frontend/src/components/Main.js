@@ -5,6 +5,8 @@ import Home from './Home/Home';
 import NavbarComponent from './LandingPage/NavbarComponent';
 import Signup from './Signup/Signup';
 import RestaurantMain from './RestaurantMain/RestaurantMain';
+import RestaurantOrders from './RestaurantOrders/RestaurantOrders';
+import RestaurantEvents from './RestaurantEvents/RestaurantEvents';
 
 //Create a Main Component
 class Main extends Component {
@@ -17,6 +19,8 @@ class Main extends Component {
                 <Route path="/home" component={Home}/>
                 <Route path="/signup" component={Signup}/>
                 <Route path="/RestaurantMain" component={RestaurantMain}/>
+                <Route path="/RestaurantOrders" component={RestaurantOrders}/>
+                <Route path="/RestaurantEvents" component={RestaurantEvents}/>
             </div>
         )
     }

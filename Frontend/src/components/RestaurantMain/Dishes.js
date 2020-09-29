@@ -27,6 +27,8 @@ class Dishes extends Component {
             category: "",
             imageURL: "",
             dishAdded: "",
+            idDishes:"",
+            dishEdited:"",
         };
         this.addDishHandler = this.addDishHandler.bind(this);
         this.editDishHandler = this.editDishHandler.bind(this);
@@ -36,15 +38,23 @@ class Dishes extends Component {
         this.ingredientsChangeHandler = this.ingredientsChangeHandler.bind(this);
         this.imageUrlChangeHandler = this.imageUrlChangeHandler.bind(this);
         this.submitAddDish = this.submitAddDish.bind(this);
+        this.submitEditDish= this.submitEditDish.bind(this);
     }
     addDishHandler = (e) => {
         this.setState({
             addDishModal: true,
+
         });
     };
-    editDishHandler = (e) => {
+    editDishHandler = (d) => {
         this.setState({
             editDishModal: true,
+            dishName: d.Name,
+            price: d.Price,
+            ingredients: d.Ingredients,
+            category: d.Category,
+            imageURL: d.Image,
+            idDishes: d.idDishes,
         });
     };
     dishNameChangeHandler = (e) => {
@@ -86,11 +96,63 @@ class Dishes extends Component {
                 ingredients: "",
                 category: "",
                 dishAdded: "",
+                idDishes:"",
+                dishEdited:"",
             });
         });
 
 
     }
+
+
+    submitEditDish = (e) => {
+        var headers = new Headers();
+        //prevent page from refresh
+        e.preventDefault();
+        const data = {
+            idRestaurants: +localStorage.getItem("r_id"),
+            dishName: this.state.dishName,
+            price: this.state.price,
+            ingredients: this.state.ingredients,
+            category: this.state.category,
+            imageURL: this.state.imageURL,
+            idDishes:this.state.idDishes,
+
+        };
+        //set the with credentials to true
+        axios.defaults.withCredentials = true;
+        //make a post request with the user data
+        // this.props.signup(data);
+        axios
+            .post("http://localhost:3001/restaurantEditNewDish", data)
+            .then((response) => {
+                console.log("Status Code : ", response.status);
+                if (response.status === 200) {
+                    this.setState({
+                        dishEdited: (
+                            <h3>
+                                Dish Edited!
+                            </h3>
+                        ),
+                    });
+
+                } else {
+                    this.setState({
+                        dishEdited: (
+                            <h3>
+                                Unable to Edit!
+                            </h3>
+                        ),
+                    });
+
+                }
+            })
+            .catch((e) => {
+                debugger;
+                console.log("FAIL!!!");
+            });
+    };
+
 
     submitAddDish = (e) => {
         var headers = new Headers();
@@ -194,18 +256,18 @@ class Dishes extends Component {
                 </Modal.Header>
 
                 <Modal.Body>
-                    <Form onSubmit={this.submitAddDish} >
+                    <Form onSubmit={this.submitEditDish} >
                         <Form.Group controlId="formDishName">
                             <Form.Label>Dish Name</Form.Label>
-                            <Form.Control type="text" placeholder="Name" onChange={this.dishNameChangeHandler} />
+                            <Form.Control type="text" placeholder="Name" onChange={this.dishNameChangeHandler} defaultValue={this.state.dishName} />
                         </Form.Group>
                         <Form.Group controlId="Price">
                             <Form.Label>Price</Form.Label>
-                            <Form.Control type="text" placeholder="Price" onChange={this.priceChangeHandler} />
+                            <Form.Control type="text" placeholder="Price" onChange={this.priceChangeHandler} defaultValue={this.state.price}/>
                         </Form.Group>
                         <Form.Group controlId="exampleForm.ControlSelect1">
                             <Form.Label>Category</Form.Label>
-                            <Form.Control as="select" onChange={this.categoryChangeHandler}>
+                            <Form.Control as="select" onChange={this.categoryChangeHandler} defaultValue={this.state.category}>
                                 <option value="Main Course">Main Course</option>
                                 <option value="Appetizer">Appetizer</option>
                                 <option value="Salads">Salads</option>
@@ -215,16 +277,16 @@ class Dishes extends Component {
                         </Form.Group>
                         <Form.Group controlId="formIngredients">
                             <Form.Label>Ingredients</Form.Label>
-                            <Form.Control type="text" placeholder="Ingredients" onChange={this.ingredientsChangeHandler} />
+                            <Form.Control type="text" placeholder="Ingredients" onChange={this.ingredientsChangeHandler} defaultValue={this.state.ingredients}/>
                         </Form.Group>
                         <Form.Group controlId="formImageURL">
                             <Form.Label>Image URL</Form.Label>
-                            <Form.Control type="text" placeholder="Image URL" onChange={this.imageUrlChangeHandler} />
+                            <Form.Control type="text" placeholder="Image URL" onChange={this.imageUrlChangeHandler} defaultValue={this.state.imageURL}/>
                         </Form.Group>
                         <Button variant="primary" type="submit">
                             Edit
                     </Button>
-                        {this.state.dishAdded}
+                        {this.state.dishEdited}
                     </Form>
                 </Modal.Body>
 
@@ -260,7 +322,7 @@ class Dishes extends Component {
                                     </Card.Text>
                                 </Card.Body>
                                 <Card.Footer>
-                                    <Button variant="primary" onClick={this.editDishHandler}>Edit</Button>
+                                    <Button variant="primary" onClick={() => this.editDishHandler(d)}>Edit</Button>
                                 </Card.Footer>
                             </Card>
                         )

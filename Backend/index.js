@@ -316,6 +316,30 @@ app.post("/restaurantAddNewDish", function (req, res) {
 
 });
 
+
+//Update Menue Item By Customer
+app.post("/restaurantEditNewDish", function (req, res) {
+  console.log("Inside Update Dishes Edit section");
+  var idRestaurants = req.body.idRestaurants;
+  var idDishes = req.body.idDishes;
+  var dishName = req.body.dishName;
+  var price = req.body.price;
+  var category = req.body.category;
+  var imageURL = req.body.imageURL;
+  var ingredients = req.body.ingredients;
+  var sql = "UPDATE Dishes SET Name= ?,Price= ?,Ingredients=?,Image=?,Category=? WHERE idDishes = ? ";
+  con.query(sql, [dishName,price,ingredients, imageURL, category,idDishes], function (err, result) {
+    if (err) {
+      console.log('SQL Error:', err);
+      res.status(205).send("Unsuccessful To Edit Dishes");
+    }
+    else {
+      res.status(200).send("Dish UPDATED");
+    }
+  });
+
+});
+
 //Route to update Customer Profile
 app.post("/updateCustomerProfile", function (req, res) {
   console.log("Inside Update customer profile section");

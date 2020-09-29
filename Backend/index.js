@@ -333,6 +333,24 @@ app.get("/getRestaurantOrders", function (req, res) {
       });
 });
 
+//Route to list of orders by customers for a restaurant
+app.get("/getRestaurantDishes", function (req, res) {
+  console.log("Inside Restaurant orders section");
+  var idRestaurants = req.query.idRestaurants;
+  console.log(idRestaurants);
+  var sql = "SELECT * FROM Dishes WHERE restaurantID = ? order by Category";
+  con.query(sql,[idRestaurants], function (err, result) {
+      if (err){
+      console.log('SQL Error:',err);
+      res.status(400).send("Unsuccessful To orders list");
+      }
+      else{
+          res.status(200).send(result);
+        }
+      });
+});
+
+
 //Route to list of reviews for a restaurant
 app.get("/getRestaurantReviews", function (req, res) {
   console.log("Inside Restaurant orders section");

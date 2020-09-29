@@ -33,19 +33,20 @@ class Reviews extends Component {
         console.log("data:", data);
         return (
             <div>
-                {data !== "" ? data.map(function (d) {
-                    return (
-                        <Table striped bordered hover size="sm">
-                            <thead>
-                                <tr>
-                                    <th>Review id</th>
-                                    <th>CustomerID</th>
-                                    <th>Comment</th>
-                                    <th>Ratings</th>
-                                    <th>Date - Time</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                <Table striped bordered hover size="sm">
+                    <thead>
+                        <tr>
+                            <th>Review id</th>
+                            <th>CustomerID</th>
+                            <th>Comment</th>
+                            <th>Ratings</th>
+                            <th>Date - Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {data !== "" ? data.map(function (d) {
+                            return (
+
                                 <tr>
                                     <td>{d.idReviews}</td>
                                     <td>{d.customerID}</td>
@@ -53,10 +54,11 @@ class Reviews extends Component {
                                     <td>{d.ratings}</td>
                                     <td>{d.reviewDate}</td>
                                 </tr>
-                            </tbody>
-                        </Table>)
-                                }) : ""}
-                {/* {data !== "" ? data.map(function (d) { return (<li><label>ID:</label>{d.idReviews}<label>comments:</label>{d.comments}</li>) }) : ""} */}
+                            )
+                        }) : ""}
+                        {/* {data !== "" ? data.map(function (d) { return (<li><label>ID:</label>{d.idReviews}<label>comments:</label>{d.comments}</li>) }) : ""} */}
+                    </tbody>
+                </Table>
             </div>
         );
     }

@@ -445,11 +445,12 @@ app.get("/getCustomerOrders", function (req, res) {
 //Route to update order status through restaurant
 app.post("/updateOrderStatus", function (req, res) {
   console.log("Inside Update Order Status");
+  console.log(req.body.orderstatus,req.body.idOrders)
   var sql = "UPDATE Orders SET orderStatus= ? WHERE idOrders = ? ";
   con.query(sql, [req.body.orderstatus, req.body.idOrders], function (err, result) {
     if (err) {
       console.log('SQL Error:', err);
-      res.status(400).send("Unsuccessful To update details");
+      res.status(205).send("Unsuccessful To update details");
     }
     else {
       res.status(200).send("Order Status UPDATED");

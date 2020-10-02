@@ -11,7 +11,7 @@ import Form from 'react-bootstrap/Form';
 
 
 //Define a Login Component
-class ResturantOrders extends Component {
+class CustomerOrders extends Component {
     //call the constructor method
     constructor(props) {
         //Call the constrictor of Super class i.e The Component
@@ -49,8 +49,8 @@ class ResturantOrders extends Component {
     };
   
     componentDidMount() {
-        var data = { params: { idRestaurants: +localStorage.getItem("r_id") } };
-        axios.get("http://localhost:3001/getRestaurantOrders", data).then((response) => {
+        var data = { params: { idCustomers: +localStorage.getItem("c_id") } };
+        axios.get("http://localhost:3001/getCustomerOrders", data).then((response) => {
             //update the state with the response data
             console.log(response.data);
             this.setState({
@@ -188,4 +188,4 @@ class ResturantOrders extends Component {
     }
 }
 
-export default ResturantOrders;
+export default CustomerOrders;

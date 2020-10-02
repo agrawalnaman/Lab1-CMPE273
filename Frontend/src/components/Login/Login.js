@@ -4,8 +4,10 @@ import axios from "axios";
 import cookie from "react-cookies";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
-import {setUsername,setAuthFlag,setCustomerID} from "../../redux/slices/login";
-
+import { setUsername, setAuthFlag, setCustomerID } from "../../redux/slices/login";
+import Button from 'react-bootstrap/Button';
+import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
+import ToggleButton from 'react-bootstrap/ToggleButton';
 //Define a Login Component
 class Login extends Component {
   //call the constructor method
@@ -18,19 +20,29 @@ class Login extends Component {
       password: "",
       authFlag: false,
       invalidCredentials: "",
-      idCustomers:"",
+      idCustomers: "",
+      persona: "",
+
     };
     //Bind the handlers to this class
     this.usernameChangeHandler = this.usernameChangeHandler.bind(this);
     this.passwordChangeHandler = this.passwordChangeHandler.bind(this);
+    this.personaChangeHandler = this.personaChangeHandler.bind(this);
     this.submitLogin = this.submitLogin.bind(this);
   }
   //Call the Will Mount to set the auth Flag to false
   componentWillMount() {
     this.setState({
       authFlag: false,
+      persona: "",
     });
   }
+  personaChangeHandler = (e) => {
+    this.setState({
+      persona: e,
+    });
+    console.log(e);
+  };
   //username change handler to update state variable with the text entered by the user
   usernameChangeHandler = (e) => {
     this.setState({
@@ -54,64 +66,113 @@ class Login extends Component {
     };
     //set the with credentials to true
     axios.defaults.withCredentials = true;
-    //make a post request with the user data
-    axios
-      .post("http://localhost:3001/customerLogin", data)
-      .then((response) => {
-        console.log("Status Code : ", response.status);
-        console.log(response.data);
-        if (response.status === 200) {
-          this.setState({
-            authFlag: true,
-          });
-          console.log(response.data.idCustomers);
-          this.setState({
-            idCustomers: response.data.idCustomers,
-          });
-          localStorage.setItem("c_id", response.data.idCustomers);
-          localStorage.setItem("r_id",2);
-          console.log(response.data.password);
-          localStorage.setItem("c_pass", response.data.password);
-          this.props.setCustomerID(response.data.idCustomers);
-          this.props.setUsername(this.state.username);
-          this.props.setAuthFlag(true);
-          
-        } else {
-          this.setState({
-            authFlag: false,
-          });
-          this.setState({
-            invalidCredentials: (
-              <p>
-                Your login credentials could not be verified, please try again.
-              </p>
-            ),
-          });
-        }
-        console.log("success" + this.state.authFlag);
-      })
-      .catch((e) => {
-        debugger;
-        console.log("FAIL!!!");
-      });
+    if (this.state.persona === "Customer") {
+      //make a post request with the user data
+      axios
+        .post("http://localhost:3001/customerLogin", data)
+        .then((response) => {
+          console.log("Status Code : ", response.status);
+          console.log(response.data);
+          if (response.status === 200) {
+
+            localStorage.setItem("c_id", response.data.idCustomers);
+            localStorage.setItem("persona", this.state.persona);                                               
+            this.setState({
+              authFlag: true,
+            });
+            console.log(response.data.idCustomers);
+            this.setState({
+              idCustomers: response.data.idCustomers,
+            });
+            console.log(response.data.password);
+
+            this.props.setCustomerID(response.data.idCustomers);
+            this.props.setUsername(this.state.username);
+            this.props.setAuthFlag(true);
+
+          } else {
+            this.setState({
+              authFlag: false,
+            });
+            this.setState({
+              invalidCredentials: (
+                <p>
+                  Your login credentials could not be verified, please try again.
+                </p>
+              ),
+            });
+          }
+          console.log("success" + this.state.authFlag);
+        })
+        .catch((e) => {
+          debugger;
+          console.log("FAIL!!!");
+        });
+    }
+    else {
+      //make a post request with the user data
+      axios
+        .post("http://localhost:3001/restaurantLogin", data)
+        .then((response) => {
+          console.log("Status Code : ", response.status);
+          console.log(response.data);
+          if (response.status === 200) {
+            console.log("login r_id:", response.data.idRestaurants);
+            localStorage.setItem("r_id", response.data.idRestaurants);
+            localStorage.setItem("persona", this.state.persona);
+            this.setState({
+              authFlag: true,
+            });
+
+
+          } else {
+            this.setState({
+              authFlag: false,
+            });
+            this.setState({
+              invalidCredentials: (
+                <p>
+                  Your login credentials could not be verified, please try again.
+                </p>
+              ),
+            });
+          }
+          console.log("success" + this.state.authFlag);
+        })
+        .catch((e) => {
+          debugger;
+          console.log("FAIL!!!");
+        });
+
+    }
   };
 
   render() {
     //redirect based on successful login
     let redirectVar = null;
     let invalidCredentials = null;
-    if (cookie.load("cookie")) {
-      redirectVar = <Redirect to="/home" />;
+    console.log("cookie", cookie.load("cookie"));
+    if (cookie.load("cookie") === "customer-admin") {
+      redirectVar = <Redirect to="/CustomerMain" />;
+    }
+    else if (cookie.load("cookie") === "restaurant-admin") {
+      redirectVar = <Redirect to="/RestaurantMain" />;
     }
 
     return (
       <div>
         {redirectVar}
         <div class="container">
+
           <div class="login-form">
+            <ToggleButtonGroup type="radio" name="options" onChange={this.personaChangeHandler} >
+              <ToggleButton value={"Customer"}>Customer </ToggleButton>
+              <ToggleButton value={"Restaurant"}>Restaurant </ToggleButton>
+            </ToggleButtonGroup>
             <div class="main-div">
               <div class="panel">
-                <h2>Admin Login</h2>
+
+                <h2>Login</h2>
                 <p>Please enter your username and password</p>
               </div>
               <div class="form-group">
@@ -146,7 +207,7 @@ class Login extends Component {
   }
 }
 
-const mapDispatchToProps = {setUsername,setAuthFlag,setCustomerID};
+const mapDispatchToProps = { setUsername, setAuthFlag, setCustomerID };
 
 //export Login Component
 export default connect(null, mapDispatchToProps)(Login);

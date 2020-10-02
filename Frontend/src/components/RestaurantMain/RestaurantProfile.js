@@ -28,9 +28,10 @@ class RestaurantProfile extends Component {
 
     componentDidMount() {
         var data = { params: { idRestaurants: +localStorage.getItem("r_id") } };
+        console.log("r_id profile resturant did mount",localStorage.getItem("r_id")); 
         axios.get("http://localhost:3001/restaurantProfile", data).then((response) => {
             //update the state with the response data
-            console.log(response.data[0]);
+            console.log("profile did mount:",response.data[0]);
             this.setState({
                 profileUpdated:"",
                 email:response.data[0].Email,

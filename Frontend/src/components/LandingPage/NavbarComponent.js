@@ -12,10 +12,11 @@ class NavbarComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      persona: "restaurant",
+      persona: localStorage.getItem("persona"),
     };
     this.handleLogout = this.handleLogout.bind(this);
   }
+
   //handle logout to destroy the cookie
   handleLogout = () => {
     cookie.remove("cookie", { path: "/" });
@@ -23,9 +24,11 @@ class NavbarComponent extends Component {
     this.props.setUsername("");
     this.props.setAuthFlag(false);
     localStorage.removeItem("c_id");
-    localStorage.removeItem("c_pass");
+    localStorage.removeItem("r_id");
+    localStorage.removeItem("persona");
   };
   render() {
+    console.log("=========================" + localStorage.getItem("persona"));
     //if Cookie is set render Logout Button
     let navLogin = null;
 
@@ -72,7 +75,7 @@ class NavbarComponent extends Component {
             <span class="glyphicon glyphicon-log-in"></span>Orders
             </Link></div>
         <div class="navbar-brand col-sm">
-        <Link to="/RestaurantEvents">
+          <Link to="/RestaurantEvents">
             <span class="glyphicon glyphicon-log-in"></span>Events
             </Link>
         </div>
@@ -80,18 +83,30 @@ class NavbarComponent extends Component {
     );
     let customerNavbar = (
       <div class="row">
-        <div class="navbar-brand col-sm">Profile</div>
-        <div class="navbar-brand col-sm">Dashboard</div>
-        <div class="navbar-brand col-sm">Orders</div>
-        <div class="navbar-brand col-sm">Events</div>
-        <div class="navbar-brand col-sm">Restaurants</div>
+        <div class="navbar-brand col-sm"><Link to="/CustomerProfile">
+          <span class="glyphicon glyphicon-log-in"></span>Profile
+            </Link></div>
+        <div class="navbar-brand col-sm"><Link to="/CustomerMain">
+          <span class="glyphicon glyphicon-log-in"></span>DashBoard
+            </Link></div>
+            <div class="navbar-brand col-sm"><Link to="/CustomerOrders">
+            <span class="glyphicon glyphicon-log-in"></span>Orders
+            </Link></div>
+            <div class="navbar-brand col-sm">
+          <Link to="/CustomerEvents">
+            <span class="glyphicon glyphicon-log-in"></span>Events
+            </Link>
+        </div>
+        <div class="navbar-brand col-sm">
+          <Link to="/CustomerRestaurantSearch">
+            <span class="glyphicon glyphicon-log-in"></span>Restaurants
+            </Link></div>
       </div>
     );
     let redirectVar = null;
     return (
       <div>
         {redirectVar}
-
         <Navbar>
           <Navbar.Brand href="#">
             <h1 class="homepage-hero_logo" id="logo">
@@ -113,7 +128,8 @@ class NavbarComponent extends Component {
           <Nav className="mr-auto">
             <Navbar.Collapse >
               <Navbar.Text>
-                {this.state.persona !== "" ? this.state.persona === "restaurant" ? restaurantNavbar : customerNavbar : ""}
+                {console.log(localStorage.getItem("hello", "persona"))}
+                {this.state.persona !== null ? this.state.persona === "Restaurant" ? restaurantNavbar : customerNavbar : ""}
               </Navbar.Text>
             </Navbar.Collapse>
           </Nav>

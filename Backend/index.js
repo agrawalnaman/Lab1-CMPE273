@@ -71,8 +71,8 @@ app.post("/customerLogin", function (req, res) {
 
       if (result[0] != null && result[0].Password === req.body.password) {
         console.log("login successfull!");
-        res.cookie("cookie", "admin", {
-          maxAge: 900000,
+        res.cookie("cookie", "customer-admin", {
+          maxAge: 3600000,
           httpOnly: false,
           path: "/",
         });
@@ -113,18 +113,17 @@ app.post("/restaurantLogin", function (req, res) {
     else {
 
       if (result[0] != null && result[0].Password === req.body.password) {
-        console.log("login successfull!");
+       
         res.cookie("cookie", "restaurant-admin", {
-          maxAge: 900000,
+          maxAge: 3600000,
           httpOnly: false,
           path: "/",
         });
-        // localStorage.setItem('persona','restaurant');
-        // localStorage.setItem('email',email);
-        res.writeHead(200, {
-          "Content-Type": "text/plain",
-        });
-        res.end("Successful Login");
+        resjson = {
+          idRestaurants: result[0].idRestaurants,
+        };
+        console.log("login successfull!");
+        res.status(200).send(resjson);
       }
       else {
         console.log('SQL Error:', err);
@@ -288,7 +287,7 @@ app.get("/customerProfile", function (req, res) {
 //Route to create a new Dish for a restaurant
 
 app.post("/restaurantAddNewDish", function (req, res) {
-  console.log("Inside SignUp Request");
+  console.log("Inside Add new Dish Request");
   console.log("Req Body : ", req.body);
   var idRestaurants = req.body.idRestaurants;
   var dishName = req.body.dishName;
@@ -316,6 +315,36 @@ app.post("/restaurantAddNewDish", function (req, res) {
 
 });
 
+// ADD events by restaurants
+app.post("/restaurantAddNewEvent", function (req, res) {
+  console.log("Inside Add new event Request");
+  console.log("Req Body : ", req.body);
+  var idRestaurants = req.body.idRestaurants;
+  var Name = req.body.name;
+  var Description = req.body.description;
+  var Time = req.body.time;
+  var Date = req.body.date;
+  var Location = req.body.location;
+  var Hashtags = req.body.hashtags;
+  var sql_insert = "INSERT INTO Events (`Name`, `Description`, `Time`, `Date`, `Location`, `Hashtags`, `restaurantID`) VALUES (?,?,?,?,?,?,?);";
+  con.query(sql_insert, [Name,Description,Time,Date,Location,Hashtags,idRestaurants ], function (err, result) {
+    if (err) {
+      console.log('SQL Error:', err);
+      res.writeHead(205, {
+        "Content-Type": "text/plain",
+      });
+      res.end("failed to add new event");
+    }
+    else {
+      console.log("add new dish successfull!");
+      res.writeHead(200, {
+        "Content-Type": "text/plain",
+      });
+      res.end("added new event");
+    }
+  });
+
+});
 
 //Update Menue Item By Customer
 app.post("/restaurantEditNewDish", function (req, res) {
@@ -343,8 +372,8 @@ app.post("/restaurantEditNewDish", function (req, res) {
 //Route to update Customer Profile
 app.post("/updateCustomerProfile", function (req, res) {
   console.log("Inside Update customer profile section");
-  var sql = "UPDATE Customers SET FirstName= ?, LastName= ?,Email= ?,Password=?,Phone=?,Favourites=?,DOB=?,City=?,State=?,Country=?,NickName=?,ProfilePicPath=? WHERE idCustomers = ? ";
-  con.query(sql, [req.body.firstname, req.body.lastname, req.body.email, req.body.password, req.body.phone, req.body.favourites, req.body.dob, req.body.city, req.body.state, req.body.country, req.body.nickname, req.body.profilepicpath, req.body.idCustomers], function (err, result) {
+  var sql = "UPDATE Customers SET FirstName= ?, LastName= ?,Email= ?,Password=?,Phone=?,Favourites=?,DOB=?,City=?,State=?,Country=?,NickName=? WHERE idCustomers = ? ";
+  con.query(sql, [req.body.firstname, req.body.lastname, req.body.email, req.body.password, req.body.phone, req.body.favourites, req.body.dob, req.body.city, req.body.state, req.body.country, req.body.nickname, req.body.idCustomers], function (err, result) {
     if (err) {
       console.log('SQL Error:', err);
       res.status(205).send("Unsuccessful To update details");
@@ -406,6 +435,23 @@ app.get("/getRestaurantDishes", function (req, res) {
   });
 });
 
+//Route to list of orders by customers for a restaurant
+app.get("/getRestaurantEvents", function (req, res) {
+  console.log("Inside Restaurant Events section");
+  var idRestaurants = req.query.idRestaurants;
+  console.log(idRestaurants);
+  var sql = "SELECT * FROM Events WHERE restaurantID = ?";
+  con.query(sql, [idRestaurants], function (err, result) {
+    if (err) {
+      console.log('SQL Error:', err);
+      res.status(400).send("Unsuccessful To orders list");
+    }
+    else {
+      res.status(200).send(result);
+    }
+  });
+});
+
 
 //Route to list of reviews for a restaurant
 app.get("/getRestaurantReviews", function (req, res) {
@@ -428,13 +474,13 @@ app.get("/getRestaurantReviews", function (req, res) {
 //Route to list of orders by restaurants for a customer
 app.get("/getCustomerOrders", function (req, res) {
   console.log("Inside Customers orders section");
-  var idCustomers = req.body.idCustomers;
+  var idCustomers = req.query.idCustomers;
   console.log(idCustomers);
   var sql = "SELECT * FROM Orders WHERE customerID = ? order by restaurantID";
   con.query(sql, [idCustomers], function (err, result) {
     if (err) {
       console.log('SQL Error:', err);
-      res.status(400).send("Unsuccessful To orders list");
+      res.status(205).send("Unsuccessful To orders list");
     }
     else {
       res.status(200).send(result);

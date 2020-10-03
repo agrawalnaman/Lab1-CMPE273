@@ -326,7 +326,7 @@ app.post("/restaurantAddNewEvent", function (req, res) {
   var Date = req.body.date;
   var Location = req.body.location;
   var Hashtags = req.body.hashtags;
-  var sql_insert = "INSERT INTO Events (`Name`, `Description`, `Time`, `Date`, `Location`, `Hashtags`, `restaurantID`) VALUES (?,?,?,?,?,?,?);";
+  var sql_insert = "INSERT INTO Events (`EventName`, `Description`, `Time`, `Date`, `Location`, `Hashtags`, `restaurantID`) VALUES (?,?,?,?,?,?,?);";
   con.query(sql_insert, [Name,Description,Time,Date,Location,Hashtags,idRestaurants ], function (err, result) {
     if (err) {
       console.log('SQL Error:', err);
@@ -435,7 +435,7 @@ app.get("/getRestaurantDishes", function (req, res) {
   });
 });
 
-//Route to list of orders by customers for a restaurant
+//Route to list of events for a restaurant
 app.get("/getRestaurantEvents", function (req, res) {
   console.log("Inside Restaurant Events section");
   var idRestaurants = req.query.idRestaurants;
@@ -451,6 +451,54 @@ app.get("/getRestaurantEvents", function (req, res) {
     }
   });
 });
+
+//Route to list upcoming events for customers 
+app.get("/getUpcomingEvents", function (req, res) {
+  console.log("Inside Upcoming Events section",req.query.name);
+  var sql1="SELECT Events.*, Restaurants.Name FROM Events INNER JOIN Restaurants ON Events.restaurantID=Restaurants.idRestaurants";
+  //var sql = "SELECT * FROM Events WHERE Name = ?";
+  con.query(sql1, function (err, result) {
+    if (err) {
+      console.log('SQL Error:', err);
+      res.status(205).send("Unsuccessful To Search Event");
+    }
+    else {
+      if(result.length===0)
+      {
+        res.status(205).send("events not found");
+      }
+      else{
+      res.status(200).send(result);
+      console.log("event search success",result);
+      }
+    }
+  });
+});
+
+
+//Route to list of search events by customers 
+app.get("/getSearchEvents", function (req, res) {
+  console.log("Inside Search Events section",req.query.name);
+  var sql1="SELECT Events.*, Restaurants.Name FROM Events INNER JOIN Restaurants ON Events.restaurantID=Restaurants.idRestaurants WHERE EventName = ?";
+  //var sql = "SELECT * FROM Events WHERE Name = ?";
+  con.query(sql1, [req.query.name], function (err, result) {
+    if (err) {
+      console.log('SQL Error:', err);
+      res.status(205).send("Unsuccessful To Search Event");
+    }
+    else {
+      if(result.length===0)
+      {
+        res.status(205).send("event not found");
+      }
+      else{
+      res.status(200).send(result);
+      console.log("event search success",result);
+      }
+    }
+  });
+});
+
 
 
 //Route to list of reviews for a restaurant

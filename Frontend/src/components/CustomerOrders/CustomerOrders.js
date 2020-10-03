@@ -170,7 +170,7 @@ class CustomerOrders extends Component {
                                     Time : {d.time}
                                 </Card.Text>
                                 <Card.Text>
-                                Customer ID :{d.customerID}
+                                Restaurant ID :{d.restaurantID}
                                 </Card.Text>
                             </Card.Body>
                             <Card.Footer>

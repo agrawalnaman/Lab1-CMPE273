@@ -372,8 +372,8 @@ app.post("/restaurantEditNewDish", function (req, res) {
 //Route to update Customer Profile
 app.post("/updateCustomerProfile", function (req, res) {
   console.log("Inside Update customer profile section");
-  var sql = "UPDATE Customers SET FirstName= ?, LastName= ?,Email= ?,Password=?,Phone=?,Favourites=?,DOB=?,City=?,State=?,Country=?,NickName=? WHERE idCustomers = ? ";
-  con.query(sql, [req.body.firstname, req.body.lastname, req.body.email, req.body.password, req.body.phone, req.body.favourites, req.body.dob, req.body.city, req.body.state, req.body.country, req.body.nickname, req.body.idCustomers], function (err, result) {
+  var sql = "UPDATE Customers SET FirstName= ?, LastName= ?,Email= ?,Password=?,Phone=?,Favourites=?,DOB=?,City=?,State=?,Country=?,NickName=?,About=? WHERE idCustomers = ? ";
+  con.query(sql, [req.body.firstname, req.body.lastname, req.body.email, req.body.password, req.body.phone, req.body.favourites, req.body.dob, req.body.city, req.body.state, req.body.country, req.body.nickname,req.body.about, req.body.idCustomers], function (err, result) {
     if (err) {
       console.log('SQL Error:', err);
       res.status(205).send("Unsuccessful To update details");

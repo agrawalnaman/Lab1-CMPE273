@@ -8,7 +8,7 @@ import CardColumns from 'react-bootstrap/CardColumns';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-
+import { Link } from "react-router-dom";
 
 //Define a Login Component
 class RestaurantEvents extends Component {
@@ -27,9 +27,13 @@ class RestaurantEvents extends Component {
             date:"",
             location:"",
             hashtags:"",
+            customerListModal:"",
+            customerListEventID:"",
+            customerList:[],
         };
         this.addEventHandler = this.addEventHandler.bind(this);
         this.nameHandler = this.nameHandler.bind(this);
+        this.customerListHandler=this.customerListHandler.bind(this);
         this.descriptionHandler=this.descriptionHandler.bind(this);
         this.timeHandler=this.timeHandler.bind(this);
         this.dateHandler=this.dateHandler.bind(this);
@@ -96,7 +100,8 @@ class RestaurantEvents extends Component {
                 date:"",
                 location:"",
                 hashtags:"",
-
+                customerListModal:"",
+                customerListEventID:"",
             });
         });
 
@@ -154,6 +159,27 @@ class RestaurantEvents extends Component {
             });
     };
 
+
+    customerListHandler = (d) => {
+ 
+
+        var data = { params: { idEvents: d.idEvents } };
+        axios.get("http://localhost:3001/getCustomerListEvent", data).then((response) => {
+            //update the state with the response data
+            console.log(response.data);
+            this.setState({
+                customerList:response.data,
+            });
+        });
+        console.log(this.state.customerList);
+        this.setState({
+            customerListModal: true,
+            customerListEventID: d.idEvents,
+        });
+
+    };
+
+
     render() {
         let redirectVar = null;
         let invalidCredentials = null;
@@ -205,6 +231,29 @@ class RestaurantEvents extends Component {
             </Modal>
         );
 
+        let listCustomer = (
+            <Modal show={this.state.customerListModal} onHide={() => this.setState({ customerListModal: false })}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Customer List</Modal.Title>
+                </Modal.Header>
+                {this.state.customerList !== undefined ? this.state.customerList.map((d) => {
+                   
+                    return(
+                        <Link to={{ 
+                            pathname: "/CustomerProfileModular", 
+                            state: d.idCustomers, 
+                           }}>
+                            {d.FirstName} {d.LastName}
+                           </Link>
+                    )}) :"asda"}
+
+                <Modal.Footer>
+                    <Button variant="primary" onClick={() => this.setState({ customerListModal: false })}>Close</Button>
+                </Modal.Footer>
+            </Modal>
+        );
+
+
       
         const data = this.state.events;
         console.log("data:", data);
@@ -213,12 +262,13 @@ class RestaurantEvents extends Component {
                  {redirectVar}
                 <button type="button" class="btn btn-light btn-block btn btn-outline-danger" onClick={this.addEventHandler}>Add Event</button>
                 {addEvent}
+                {listCustomer}
                 <CardColumns>
                     {data !== "" ? data.map((d) => {
                         return (
 
                             <Card style={{ width: '25rem' }} bg={'danger'}  className="mb-2" text={'white'}>
-                                <Card.Header as="h5">Name : {d.Name}</Card.Header>
+                                <Card.Header as="h5">Name : {d.EventName}</Card.Header>
                                 <Card.Body>
                                     <Card.Title>Event Id : {d.idEvents}</Card.Title>
                                     <Card.Text>
@@ -234,6 +284,7 @@ class RestaurantEvents extends Component {
                                 <Card.Footer>
                                         Time : {d.Time} , 
                                         Date : {d.Date} ,
+                                        <Button variant="primary" onClick={() => this.customerListHandler(d)}>View List Of Customers</Button>
                                 </Card.Footer>
                             </Card>
                         )

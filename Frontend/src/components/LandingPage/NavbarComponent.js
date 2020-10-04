@@ -98,7 +98,10 @@ class NavbarComponent extends Component {
             </Link>
         </div>
         <div class="navbar-brand col-sm">
-          <Link to="/CustomerRestaurantSearch">
+          <Link to={{ 
+                            pathname: "/RestaurantPage", 
+                            state: 2, 
+                           }}>
             <span class="glyphicon glyphicon-log-in"></span>Restaurants
             </Link></div>
       </div>

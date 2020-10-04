@@ -385,6 +385,22 @@ app.post("/updateCustomerProfile", function (req, res) {
 
 });
 
+//Route to post customer review
+app.post("/postReview", function (req, res) {
+  console.log("Inside post customer review section");
+  var sql ="INSERT INTO Reviews ( `restaurantID`, `customerID`, `reviewDate`, `ratings`, `comments`) VALUES (?, ?, now(), ?, ?)";
+  con.query(sql, [req.body.restaurantID,req.body.customerID,req.body.ratings,req.body.comments], function (err, result) {
+    if (err) {
+      console.log('SQL Error:', err);
+      res.status(205).send("Unsuccessful To Post Review");
+    }
+    else {
+      res.status(200).send("Review Posted");
+    }
+  });
+
+});
+
 //Route to update Restaurant Profile
 app.post("/updateRestaurantProfile", function (req, res) {
   console.log("Inside Update Restaurant profile section");
@@ -502,6 +518,29 @@ app.get("/getUpcomingEvents", function (req, res) {
       if(result.length===0)
       {
         res.status(205).send("events not found");
+      }
+      else{
+      res.status(200).send(result);
+      console.log("event search success",result);
+      }
+    }
+  });
+});
+
+//Route for customer list for a event for restaurants
+app.get("/getCustomerListEvent", function (req, res) {
+  console.log("Inside Customer list events section",req.query.idEvents);
+  var sql1="SELECT Customers.* FROM EventRegistration INNER JOIN Customers ON Customers.idCustomers=EventRegistration.CustomerID WHERE EventRegistration.EventID=?";
+  //var sql = "SELECT * FROM Events WHERE Name = ?";
+  con.query(sql1,[req.query.idEvents], function (err, result) {
+    if (err) {
+      console.log('SQL Error:', err);
+      res.status(205).send("Unsuccessful To fetch list of customers");
+    }
+    else {
+      if(result.length===0)
+      {
+        res.status(205).send("Customers not found");
       }
       else{
       res.status(200).send(result);

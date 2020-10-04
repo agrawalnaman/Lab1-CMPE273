@@ -8,6 +8,7 @@ import CardColumns from 'react-bootstrap/CardColumns';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import { Link } from "react-router-dom";
 
 
 //Define a Login Component
@@ -169,9 +170,14 @@ class ResturantOrders extends Component {
                                 <Card.Text>
                                     Time : {d.time}
                                 </Card.Text>
+                                <Link to={{ 
+                            pathname: "/CustomerProfileModular", 
+                            state: d.customerID, 
+                           }}>
                                 <Card.Text>
                                 Customer ID :{d.customerID}
                                 </Card.Text>
+                                </Link>
                             </Card.Body>
                             <Card.Footer>
                             

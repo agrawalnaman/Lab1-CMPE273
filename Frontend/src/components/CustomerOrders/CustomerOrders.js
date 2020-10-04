@@ -9,7 +9,6 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 
-
 //Define a Login Component
 class CustomerOrders extends Component {
     //call the constructor method
@@ -27,19 +26,9 @@ class CustomerOrders extends Component {
 
 
         };
-        this.editOrderStatusHandler = this.editOrderStatusHandler.bind(this);
         this.statusChangeHandler = this.statusChangeHandler.bind(this);
         this.submitStatus= this.submitStatus.bind(this);
     }
-
-    editOrderStatusHandler = (d) => {
-        this.setState({
-            orderStatusModal: true,
-            idOrders:d.idOrders,
-            status:d.orderStatus,
-            deliveryMode:d.deliveryMode,
-        });
-    };
 
 
     statusChangeHandler = (e) => {
@@ -176,7 +165,7 @@ class CustomerOrders extends Component {
                             <Card.Footer>
                             
                             <large className="text-muted">Order Status : {d.orderStatus}</large>
-                            <Button variant="primary" onClick={() => this.editOrderStatusHandler(d)}>Update Status</Button>
+        
                             </Card.Footer>
                         </Card>
                         )

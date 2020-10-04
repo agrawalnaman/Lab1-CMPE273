@@ -401,6 +401,42 @@ app.post("/updateRestaurantProfile", function (req, res) {
 
 });
 
+//Route to register a customer to event
+app.post("/registerCustomerEvent", function (req, res) {
+  console.log("Inside register customer event section",req.body.idEvents);
+  var sql1 = "INSERT INTO EventRegistration (`EventID`, `CustomerID`) VALUES (?, ?)";
+  var sql2= "SELECT * From EventRegistration where CustomerID=? AND EventID=?";
+  //var sql = "UPDATE Restaurants SET Name= ?,Email= ?,Password=?,Contact=?,Location=?,Description=?,Timings=?,PictureOfRestaurants=?,PicturesOfDishes=? WHERE idRestaurants = ? ";
+  con.query(sql2, [req.body.idCustomers,req.body.idEvents], function (err, result) {
+    if (err) {
+      console.log('SQL Error:', err);
+      res.status(205).send("Unsuccessful To register to event");
+    }
+    else {
+      if(result.length===0){
+
+        con.query(sql1, [req.body.idEvents,req.body.idCustomers], function (err, result) {
+          if (err) {
+            console.log('SQL Error:', err);
+            res.status(205).send("Unsuccessful To register to event");
+          }
+          else{
+            res.status(200).send("Registered to Event");
+          }
+
+        });
+       
+      }
+      else{
+        res.status(205).send("Unsuccessful To register to event");
+
+      }
+
+    }
+  });
+
+});
+
 //Route to list of orders by customers for a restaurant
 app.get("/getRestaurantOrders", function (req, res) {
   console.log("Inside Restaurant orders section");
@@ -458,6 +494,29 @@ app.get("/getUpcomingEvents", function (req, res) {
   var sql1="SELECT Events.*, Restaurants.Name FROM Events INNER JOIN Restaurants ON Events.restaurantID=Restaurants.idRestaurants";
   //var sql = "SELECT * FROM Events WHERE Name = ?";
   con.query(sql1, function (err, result) {
+    if (err) {
+      console.log('SQL Error:', err);
+      res.status(205).send("Unsuccessful To Search Event");
+    }
+    else {
+      if(result.length===0)
+      {
+        res.status(205).send("events not found");
+      }
+      else{
+      res.status(200).send(result);
+      console.log("event search success",result);
+      }
+    }
+  });
+});
+
+//Route to list upcoming events for customers 
+app.get("/getRegisteredEvents", function (req, res) {
+  console.log("Inside Registered Events section",req.query.idCustomers);
+  var sql1="SELECT Events.* FROM Events INNER JOIN EventRegistration ON EventRegistration.EventID=Events.idEvents where EventRegistration.CustomerID=?";
+  //var sql = "SELECT * FROM Events WHERE Name = ?";
+  con.query(sql1,[req.query.idCustomers], function (err, result) {
     if (err) {
       console.log('SQL Error:', err);
       res.status(205).send("Unsuccessful To Search Event");

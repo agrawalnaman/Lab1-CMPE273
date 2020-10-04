@@ -8,6 +8,9 @@ import CardColumns from 'react-bootstrap/CardColumns';
 import Button from "react-bootstrap/esm/Button";
 import Form from 'react-bootstrap/Form';
 import Accordion from 'react-bootstrap/Accordion';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
+
 
 //Define a Login Component
 class SearchEvents extends Component {
@@ -20,8 +23,10 @@ class SearchEvents extends Component {
             event: "",
             name: "",
             eventnotfound: "",
+            registration:"",
         };
         this.nameHandler = this.nameHandler.bind(this);
+        this.registerHandler = this.registerHandler.bind(this);
     }
 
 
@@ -31,6 +36,7 @@ class SearchEvents extends Component {
             event: "",
             name: "",
             eventnotfound: "",
+            registration:"",
 
         });
 
@@ -42,6 +48,38 @@ class SearchEvents extends Component {
         });
     };
 
+    registerHandler = (e) => {
+        var headers = new Headers();
+        //prevent page from refresh
+        console.log("register",e.idEvents);
+        const data = {
+            idCustomers:+localStorage.getItem("c_id"),
+            idEvents: e.idEvents,
+         };
+        //set the with credentials to true
+        axios.defaults.withCredentials = true;
+        //make a post request with the user data
+        // this.props.signup(data);
+        axios
+            .post("http://localhost:3001/registerCustomerEvent", data)
+            .then((response) => {
+                console.log("Status Code : ", response.status);
+                if (response.status === 200) {
+                    this.setState({
+                        registration: <p>Registered</p>
+                    });
+
+                } else {
+                    this.setState({
+                        registration: <p>Already Registered</p>
+                    });
+                }
+            })
+            .catch((e) => {
+                debugger;
+                console.log("FAIL!!!");
+            });
+    };
 
     submitSearchEvent = (e) => {
         var headers = new Headers();
@@ -78,6 +116,14 @@ class SearchEvents extends Component {
 
 
     render() {
+        const popover = (
+            <Popover id="popover-basic">
+              <Popover.Title as="h3">Status</Popover.Title>
+              <Popover.Content>
+              <strong>{this.state.registration}</strong> 
+              </Popover.Content>
+            </Popover>
+          );
         //redirect based on successful login
         let redirectVar = null;
         let invalidCredentials = null;
@@ -96,14 +142,19 @@ class SearchEvents extends Component {
                     <Button variant="primary" type="submit">
                         Search Event
                     </Button>
+            
                 </Form>
                 {this.state.eventnotfound}
+               
                 <CardColumns>
                     {data !== "" ? data.map((d) => {
                         return (
                             <Accordion>
                                 <Card>
                                     <Card.Header>
+                                    <OverlayTrigger trigger="click" placement="right" overlay={popover}>
+                                    <Button variant="primary" onClick={() => this.registerHandler(d)}>Register</Button>
+                                    </OverlayTrigger>
                                         <Card.Header as="h5"> Event Name : {d.EventName}</Card.Header>
                                         <Card.Header as="h5"> Restaurant : {d.Name}</Card.Header>
                                         <Accordion.Toggle as={Button} variant="link" eventKey="0">
@@ -129,8 +180,10 @@ class SearchEvents extends Component {
                                     </Accordion.Collapse>
                                 </Card>
                             </Accordion>
+                            
                         )
                     }) : ""}
+                     
                 </CardColumns>
             </div>
         );

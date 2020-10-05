@@ -9,6 +9,7 @@ app.set("view engine", "ejs");
 
 //connect to MySQL
 var mysql = require('mysql');
+const { response } = require("express");
 
 var con = mysql.createConnection({
   host: "localhost",
@@ -191,7 +192,7 @@ app.post("/restaurantSignUp", function (req, res) {
   console.log("Req Body : ", req.body);
   var email = req.body.email;
   var password = req.body.password;
-  var Name = req.body.name;
+  var Name = req.body.restaurantname;
   var location = req.body.location;
   var sql_findEmail = "SELECT * FROM Restaurants WHERE Email = ?";
   var sql_insert = "INSERT INTO Restaurants (Email,Name,Password,Location) VALUES (?,?,?,?)";
@@ -401,6 +402,22 @@ app.post("/postReview", function (req, res) {
 
 });
 
+
+//Route to place order by customer 
+app.post("/submitOrder", function (req, res) {
+  console.log("Inside place order by customer  section");
+  var sql ="INSERT INTO Orders (deliveryMode,customerID,restaurantID,time) VALUES (?,?,?,now())";
+  con.query(sql, [req.body.deliverymode,req.body.idCustomers,req.body.finalorder[0].restaurantID], function (err, result) {
+    if (err) {
+      console.log('SQL Error:', err);
+      res.status(205).send("Unsuccessful To submit Order");
+    }
+    else {
+      res.status(200).send("order Submitted");
+    }
+  });
+
+});
 //Route to update Restaurant Profile
 app.post("/updateRestaurantProfile", function (req, res) {
   console.log("Inside Update Restaurant profile section");

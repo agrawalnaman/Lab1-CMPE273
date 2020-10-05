@@ -204,11 +204,11 @@ class RestaurantEvents extends Component {
                         </Form.Group>
                         <Form.Group controlId="FormTime">
                             <Form.Label>Time</Form.Label>
-                            <Form.Control type="text" placeholder="Time" onChange={this.timeHandler} />
+                            <Form.Control type="time" placeholder="Time" onChange={this.timeHandler} />
                         </Form.Group>
                         <Form.Group controlId="formDate">
                             <Form.Label>Date</Form.Label>
-                            <Form.Control type="text" placeholder="Date" onChange={this.dateHandler} />
+                            <Form.Control type="date" placeholder="Date" onChange={this.dateHandler} />
                         </Form.Group>
                         <Form.Group controlId="formLocation">
                             <Form.Label>Location</Form.Label>

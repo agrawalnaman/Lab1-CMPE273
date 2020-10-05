@@ -13,6 +13,7 @@ import CustomerOrders from './CustomerOrders/CustomerOrders';
 import CustomerEvents from './CustomerEvents/CustomerEvents';
 import CustomerProfileModular from './CustomerProfile/CustomerProfileModular';
 import RestaurantPage from './RestaurantPage/RestaurantPage';
+import OrderFood from './Cart/OrderFood';
 
 //Create a Main Component
 class Main extends Component {
@@ -33,6 +34,7 @@ class Main extends Component {
                 <Route path="/CustomerEvents" component={CustomerEvents}/>
                 <Route path="/CustomerProfileModular" component={CustomerProfileModular}/>
                 <Route path="/RestaurantPage" component={RestaurantPage}/>
+                <Route path="/OrderFood" component={OrderFood}/>
         
 
         

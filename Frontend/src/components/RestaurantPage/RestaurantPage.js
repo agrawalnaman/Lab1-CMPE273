@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Accordion from 'react-bootstrap/Accordion';
-
+import OrderFood from "../Cart/OrderFood";
 //Define a Login Component
 class RestaurantPage extends Component {
     //call the constructor method
@@ -18,14 +18,14 @@ class RestaurantPage extends Component {
         this.state = {
             restaurantID: "",
             profile: "",
-            comments:"",
-            rating:"",
-            status:"",
+            comments: "",
+            rating: "",
+            status: "",
 
         };
         this.commentsChangeHandler = this.commentsChangeHandler.bind(this);
         this.ratingChangeHandler = this.ratingChangeHandler.bind(this);
-        this.submitReview= this.submitReview.bind(this);
+        this.submitReview = this.submitReview.bind(this);
     }
 
     componentDidMount() {
@@ -72,9 +72,9 @@ class RestaurantPage extends Component {
         e.preventDefault();
         const data = {
             customerID: +localStorage.getItem("c_id"),
-            restaurantID:this.state.restaurantID,
-            ratings:this.state.rating,
-            comments:this.state.comments,
+            restaurantID: this.state.restaurantID,
+            ratings: this.state.rating,
+            comments: this.state.comments,
 
         };
         //set the with credentials to true
@@ -89,7 +89,7 @@ class RestaurantPage extends Component {
                     this.setState({
                         status: (
                             <p>
-                               Posted
+                                Posted
                             </p>
                         ),
                     });
@@ -115,44 +115,67 @@ class RestaurantPage extends Component {
 
 
         return (
-            <div class="row">
-                <div class="col">
-                    {this.state.profile}
-                    
-                </div>
-                <div class="col">
+            <div>
+                <div class="row">
+                    <div class="col-3">
+                        <div>
+                            {this.state.profile}
+
+                        </div>
+                        <div>
+                            <Accordion>
+                                <Card>
+                                    <Card.Header>
+                                        <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                                            Add Review
+                                     </Accordion.Toggle>
+                                    </Card.Header>
+                                    <Accordion.Collapse eventKey="0">
+                                        <Card.Body>
+
+                                            <Form onSubmit={this.submitReview} >
+                                                <Form.Group controlId="formComments">
+                                                    <Form.Label>Comments</Form.Label>
+                                                    <Form.Control type="text" placeholder="Comments" onChange={this.commentsChangeHandler} />
+                                                </Form.Group>
+                                                <Form.Group controlId="formRating">
+                                                    <Form.Label>Rating</Form.Label>
+                                                    <Form.Control type="number" step="0.1" min="0" max="5" placeholder="Rating" onChange={this.ratingChangeHandler} />
+                                                </Form.Group>
+
+                                                <Button variant="danger" type="submit">
+                                                    Post
+                                        </Button>
+                                                {this.state.status}
+                                            </Form>
+                                        </Card.Body>
+                                    </Accordion.Collapse>
+                                </Card>
+                            </Accordion>
+                        </div>
+
+                    </div>
+                    <div class="col">
                     <Accordion>
                         <Card>
                             <Card.Header>
                                 <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                                    Add Review
-                                     </Accordion.Toggle>
+                                    Place Order
+                                </Accordion.Toggle>
                             </Card.Header>
                             <Accordion.Collapse eventKey="0">
                                 <Card.Body>
+                                    <OrderFood restaurantID={this.state.restaurantID}/>
 
-                                    <Form onSubmit={this.submitReview} >
-                                        <Form.Group controlId="formComments">
-                                            <Form.Label>Comments</Form.Label>
-                                            <Form.Control type="text" placeholder="Comments" onChange={this.commentsChangeHandler} />
-                                        </Form.Group>
-                                        <Form.Group controlId="formRating">
-                                            <Form.Label>Rating</Form.Label>
-                                            <Form.Control type="number" step="0.1" min="0" max="5" placeholder="Rating" onChange={this.ratingChangeHandler} />
-                                        </Form.Group>
-
-                                        <Button variant="danger" type="submit">
-                                            Post
-                                        </Button>
-                                        {this.state.status}
-                                    </Form>
                                 </Card.Body>
                             </Accordion.Collapse>
                         </Card>
                     </Accordion>
-                </div>
-            </div>
 
+                </div>
+                </div>
+
+            </div>
         );
 
     }

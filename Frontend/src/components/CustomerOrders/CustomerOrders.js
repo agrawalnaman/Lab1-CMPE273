@@ -27,7 +27,6 @@ class CustomerOrders extends Component {
 
         };
         this.statusChangeHandler = this.statusChangeHandler.bind(this);
-        this.submitStatus= this.submitStatus.bind(this);
     }
 
 
@@ -55,49 +54,6 @@ class CustomerOrders extends Component {
     }
 
 
-    submitStatus = (e) => {
-        var headers = new Headers();
-        //prevent page from refresh
-        e.preventDefault();
-        const data = {
-           orderstatus:this.state.status,
-           idOrders:this.state.idOrders,
-        };
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        // this.props.signup(data);
-        axios
-            .post("http://localhost:3001/updateOrderStatus", data)
-            .then((response) => {
-                console.log("Status Code : ", response.status);
-                if (response.status === 200) {
-                    this.setState({
-                        orderStatusEdited: (
-                            <h3>
-                             Status Updated
-                            </h3>
-                        ),
-                    });
-
-                } else {
-                    this.setState({
-                        orderStatusEdited: (
-                            <h3>
-                                Unable to update Status!
-                            </h3>
-                        ),
-                    });
-
-                }
-            })
-            .catch((e) => {
-                debugger;
-                console.log("FAIL!!!");
-            });
-    };
-
-
 
 
     render() {
@@ -106,47 +62,12 @@ class CustomerOrders extends Component {
         if (!cookie.load("cookie")) {
             redirectVar = <Redirect to="/login" />;
         }
-        let orderStatus = (
-            <Modal show={this.state.orderStatusModal} onHide={() => this.setState({ orderStatusModal: false })}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Edit Dish!</Modal.Title>
-                </Modal.Header>
-
-                <Modal.Body>
-                    <Form onSubmit={this.submitStatus} >
-                        <Form.Group controlId="exampleForm.ControlSelect1">
-                            <Form.Label>Category</Form.Label>
-   {this.state.deliveryMode==="delivery"?( <Form.Control as="select" onChange={this.statusChangeHandler}  defaultValue={this.state.status}>
-                                <option value="orderrecieved">Order Recieved</option>
-                                <option value="preparing">Preparing</option>
-                                <option value="ontheway">On The Way</option>
-                                <option value="delivered">Delivered</option>
-                            </Form.Control>):( <Form.Control as="select" onChange={this.statusChangeHandler}  defaultValue={this.state.status}>
-                                <option value="orderrecieved">Order Recieved</option>
-                                <option value="preparing">Preparing</option>
-                                <option value="pickupready">Pick Up Ready</option>
-                                <option value="pickedup">Picked Up</option>
-                            </Form.Control>)}
-                        </Form.Group>
-
-                        <Button variant="primary" type="submit">
-                            Update
-                    </Button>
-                        {this.state.orderStatusEdited}
-                    </Form>
-                </Modal.Body>
-
-                <Modal.Footer>
-                    <Button variant="primary" onClick={() => this.setState({ orderStatusModal: false })}>Close</Button>
-                </Modal.Footer>
-            </Modal>
-        );
         const data = this.state.orders;
         console.log("data:", data);
         return (
             <div>
                  {redirectVar}
-                {orderStatus}
+
                 <CardColumns>
                     {data !== "" ? data.map((d) => {
                         return (

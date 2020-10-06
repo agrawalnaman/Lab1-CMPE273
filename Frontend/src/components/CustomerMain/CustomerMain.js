@@ -3,7 +3,14 @@ import "../../App.css";
 import axios from "axios";
 import cookie from "react-cookies";
 import { Redirect } from "react-router";
-import Table from 'react-bootstrap/Table';
+import Card from 'react-bootstrap/Card';
+import CardColumns from 'react-bootstrap/CardColumns';
+import Button from "react-bootstrap/esm/Button";
+import Form from 'react-bootstrap/Form';
+import Accordion from 'react-bootstrap/Accordion';
+import { Link } from "react-router-dom";
+
+
 //Define a Login Component
 class CustomerMain extends Component {
     //call the constructor method
@@ -12,57 +19,137 @@ class CustomerMain extends Component {
         super(props);
         //maintain the state required for this component
         this.state = {
-            reviews: "",
-
+            searchterm: "",
+            category: "",
+            restaurants:"",
+            restaurantnotfound:"",
         };
+        this.searchHandler = this.searchHandler.bind(this);
+        this.categoryChangeHandler = this.categoryChangeHandler.bind(this);
     }
+
+
 
     componentDidMount() {
-        var data = { params: { idRestaurants: +localStorage.getItem("r_id") } };
-        axios.get("http://localhost:3001/getRestaurantReviews", data).then((response) => {
-            //update the state with the response data
-            console.log(response.data);
-            this.setState({
-                reviews: response.data,
-            });
+        this.setState({
+            searchterm: "",
+            category: "",
+            restaurants:"",
+            restaurantnotfound:"",
+
         });
+
     }
+    searchHandler = (e) => {
+        this.setState({
+            searchterm: e.target.value,
+
+        });
+    };
+    categoryChangeHandler = (e) => {
+        this.setState({
+            category: e.target.value,
+        });
+    };
+
+    submitSearchEvent = (e) => {
+        var headers = new Headers();
+        //prevent page from refresh
+        e.preventDefault();
+        const data = { params: { 
+            searchterm:this.state.searchterm,
+            category:this.state.category,
+        
+        } };
+        console.log("search term:", this.state.searchterm);
+        //set the with credentials to true
+        axios.defaults.withCredentials = true;
+        //make a post request with the user data
+        // this.props.signup(data);
+        axios
+            .get("http://localhost:3001/getSearchRestaurants", data)
+            .then((response) => {
+                console.log("Status Code : ", response.status);
+                if (response.status === 200) {
+                    this.setState({
+                        restaurants: response.data,
+                    });
+                    console.log(this.state.event);
+
+                } else {
+                    this.setState({
+                        restaurants:"",
+                        restaurantnotfound: "No Restuarant Found!",
+                    });
+                }
+            })
+            .catch((e) => {
+                debugger;
+                console.log("FAIL!!!");
+            });
+    };
+
 
     render() {
-        const data = this.state.reviews;
-        console.log("data:", data);
+        //redirect based on successful login
+        let redirectVar = null;
+        let invalidCredentials = null;
+        if (!cookie.load("cookie")) {
+            redirectVar = <Redirect to="/login" />;
+        }
+        const data = this.state.restaurants;
         return (
             <div>
-                <Table striped bordered hover size="sm">
-                    <thead>
-                        <tr>
-                            <th>Review id</th>
-                            <th>CustomerID</th>
-                            <th>Comment</th>
-                            <th>Ratings</th>
-                            <th>Date - Time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data !== "" ? data.map(function (d) {
-                            return (
+                {redirectVar}
+                <Form onSubmit={this.submitSearchEvent}>
+                    <Form.Group controlId="formBasicEventName">
+                        <Form.Label>Input Search Term</Form.Label>
+                        <Form.Control type="text" placeholder="event name" onChange={this.searchHandler} />
+                    </Form.Group>
+                    <Form.Group controlId="exampleForm.ControlSelect1">
+                        <Form.Label>Search Category</Form.Label>
+                        <Form.Control as="select" onChange={this.categoryChangeHandler}  defaultValue="dishes">
+                            <option value="location">Location</option>
+                            <option value="cuisine">Cuisine</option>
+                            <option value="deliveryMode">Mode of Delivery</option>
+                            <option value="dishes">Dishes</option>
+                        </Form.Control>
+                    </Form.Group>
+                    <Button variant="primary" type="submit">
+                        Search Restaurant
+                    </Button>
 
-                                <tr>
-                                    <td>{d.idReviews}</td>
-                                    <td>{d.customerID}</td>
-                                    <td>{d.comments}</td>
-                                    <td>{d.ratings}</td>
-                                    <td>{d.reviewDate}</td>
-                                </tr>
-                            )
-                        }) : ""}
-                        {/* {data !== "" ? data.map(function (d) { return (<li><label>ID:</label>{d.idReviews}<label>comments:</label>{d.comments}</li>) }) : ""} */}
-                    </tbody>
-                </Table>
+                </Form>
+                {this.state.restaurantnotfound}
+
+                <CardColumns>
+                    {data !== "" ? data.map((d) => {
+                        return (
+                            <Accordion>
+                                <Card>
+                                    <Card.Header>
+                                        <Card.Header as="h5"> Restaurant Name : {d.Name}</Card.Header>
+                                        <Card.Header as="h5"> Cuisine : {d.Cuisine}</Card.Header>
+                                        <Link to={{ 
+                            pathname: "/RestaurantPage", 
+                            state: d.idRestaurants, 
+                           }}>
+                                        <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                                            Take me to Restaurant's Page!
+                                    </Accordion.Toggle>
+                                    </Link>
+                                    </Card.Header>
+                                </Card>
+                            </Accordion>
+
+                        )
+                    }) : ""}
+
+                </CardColumns>
             </div>
         );
     }
-
 }
+
 
 export default CustomerMain;

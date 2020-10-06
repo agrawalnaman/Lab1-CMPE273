@@ -614,6 +614,99 @@ app.get("/getSearchEvents", function (req, res) {
   });
 });
 
+//Route to list of search restaurants by customers 
+app.get("/getSearchRestaurants", function (req, res) {
+  console.log("Inside Search Restaurants section:",req.query.searchterm,req.query.category);
+
+  switch(req.query.category) {
+    case "location":
+      var sql1="SELECT * FROM Restaurants WHERE Location = ?";
+      con.query(sql1, [req.query.searchterm], function (err, result) {
+        if (err) {
+          console.log('SQL Error:', err);
+          res.status(205).send("Unsuccessful To Search Event");
+        }
+        else {
+          if(result.length===0)
+          {
+            res.status(205).send("event not found");
+          }
+          else{
+          res.status(200).send(result);
+          console.log("event search success",result);
+          }
+        }
+      });
+      break;
+    case "cuisine":
+      var sql1="SELECT * FROM Restaurants WHERE Cuisine = ?";
+      con.query(sql1, [req.query.searchterm], function (err, result) {
+        if (err) {
+          console.log('SQL Error:', err);
+          res.status(205).send("Unsuccessful To Search Event");
+        }
+        else {
+          if(result.length===0)
+          {
+            res.status(205).send("event not found");
+            console.log("not found");
+          }
+          else{
+          res.status(200).send(result);
+          console.log("event search success",result);
+          }
+        }
+      });
+      break;
+    case "dishes":
+      var sql1="SELECT DISTINCT Restaurants.* FROM Dishes INNER JOIN Restaurants ON Dishes.restaurantID = Restaurants.idRestaurants WHERE Dishes.Name = ?";
+      con.query(sql1, [req.query.searchterm], function (err, result) {
+        if (err) {
+          console.log('SQL Error:', err);
+          res.status(205).send("Unsuccessful To Search Event");
+        }
+        else {
+          if(result.length===0)
+          {
+            res.status(205).send("event not found");
+            console.log("not found");
+          }
+          else{
+          res.status(200).send(result);
+          console.log("event search success",result);
+          }
+        }
+      });
+      break;
+    case "deliveryMode":
+      var sql1="SELECT * FROM Restaurants WHERE deliveryMode = ?";
+      con.query(sql1, [req.query.searchterm], function (err, result) {
+        if (err) {
+          console.log('SQL Error:', err);
+          res.status(205).send("Unsuccessful To Search Event");
+        }
+        else {
+          if(result.length===0)
+          {
+            res.status(205).send("event not found");
+            console.log("not found");
+          }
+          else{
+          res.status(200).send(result);
+          console.log("event search success",result);
+          }
+        }
+      });
+
+        break;
+  }
+
+
+
+});
+
+
+
 
 
 //Route to list of reviews for a restaurant

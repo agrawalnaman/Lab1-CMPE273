@@ -37,8 +37,6 @@ class Main extends Component {
                 <Route path="/OrderFood" component={OrderFood}/>
         
 
-        
-
             </div>
         )
     }

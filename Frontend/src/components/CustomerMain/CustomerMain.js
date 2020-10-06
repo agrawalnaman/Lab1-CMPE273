@@ -10,7 +10,7 @@ import Form from 'react-bootstrap/Form';
 import Accordion from 'react-bootstrap/Accordion';
 import { Link } from "react-router-dom";
 import MapContainer from "../CustomerMain/MapRestaurants";
-
+import { RadioGroup, RadioButton} from 'react-radio-buttons';
 
 //Define a Login Component
 class CustomerMain extends Component {
@@ -24,9 +24,11 @@ class CustomerMain extends Component {
             category: "",
             restaurants: "",
             restaurantnotfound: "",
+            filteredrestaurants : "",
         };
         this.searchHandler = this.searchHandler.bind(this);
         this.categoryChangeHandler = this.categoryChangeHandler.bind(this);
+        this.onChange = this.onChange.bind(this);
     }
 
 
@@ -37,6 +39,7 @@ class CustomerMain extends Component {
             category: "",
             restaurants: "",
             restaurantnotfound: "",
+            filteredrestaurants :"",
 
         });
 
@@ -46,6 +49,25 @@ class CustomerMain extends Component {
             searchterm: e.target.value,
 
         });
+    };
+    onChange = (e) => {
+        // this.state.restaurants!== null ? filteredrestaurants = this.state.restaurants.filter(
+        //         (restaurant) => restaurant.deliveryMode === e.target.value
+        //     ) : "";
+        var filter1="";
+        console.log(e);
+        console.log("filter",this.state.restaurants)
+        if(this.state.restaurants!=="")
+        {
+        filter1 = this.state.restaurants.filter(function (d) {
+            return d.deliveryMode === e;
+        });
+        this.setState({
+            filteredrestaurants:filter1,
+
+        });
+    }
+
     };
     categoryChangeHandler = (e) => {
         this.setState({
@@ -76,12 +98,14 @@ class CustomerMain extends Component {
                 if (response.status === 200) {
                     this.setState({
                         restaurants: response.data,
+                        filteredrestaurants:response.data,
                     });
-                    console.log(this.state.event);
+                    console.log(this.state.restaurants);
 
                 } else {
                     this.setState({
                         restaurants: "",
+                        filteredrestaurants:"",
                         restaurantnotfound: "No Restuarant Found!",
                     });
                 }
@@ -100,7 +124,7 @@ class CustomerMain extends Component {
         if (!cookie.load("cookie")) {
             redirectVar = <Redirect to="/login" />;
         }
-        const data = this.state.restaurants;
+        const data = this.state.filteredrestaurants;
         return (
             <div class="row">
                 {redirectVar}
@@ -122,8 +146,19 @@ class CustomerMain extends Component {
                         <Button variant="primary" type="submit">
                             Search Restaurant
                     </Button>
-
                     </Form>
+                    <RadioGroup onChange={this.onChange} horizontal>
+                        <RadioButton value="pickup">
+                            PickUp
+                         </RadioButton>
+                        <RadioButton value="dinein">
+                            Dine In
+                         </RadioButton>
+                        <RadioButton value="delivery">
+                            Yelp Delivery
+                        </RadioButton>
+                    </RadioGroup>
+
                     {this.state.restaurantnotfound}
 
                     <CardColumns>

@@ -108,6 +108,19 @@ class RestaurantPage extends Component {
                 debugger;
                 console.log("FAIL!!!");
             });
+            var data1 = { params: { idRestaurants: this.props.location.state } };
+            axios.get("http://localhost:3001/getRestaurantOrders", data1).then((response) => {
+                //update the state with the response data
+                console.log(response.data);
+                this.setState({
+                    orders: response.data,
+                    filteredorders: response.data,
+                    orderStatusModal: false,
+                    orderStatusEdited:"",
+                    deliveryMode:"",
+                    status:"",
+                });
+            });
     };
 
 

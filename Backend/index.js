@@ -406,8 +406,8 @@ app.post("/postReview", function (req, res) {
 //Route to place order by customer 
 app.post("/submitOrder", function (req, res) {
   console.log("Inside place order by customer  section");
-  var sql ="INSERT INTO Orders (deliveryMode,customerID,restaurantID,time) VALUES (?,?,?,now())";
-  con.query(sql, [req.body.deliverymode,req.body.idCustomers,req.body.finalorder[0].restaurantID], function (err, result) {
+  var sql ="INSERT INTO Orders (deliveryMode,customerID,restaurantID,time,orderStatus) VALUES (?,?,?,now(),?)";
+  con.query(sql, [req.body.deliverymode,req.body.idCustomers,req.body.finalorder[0].restaurantID,"orderrecieved"], function (err, result) {
     if (err) {
       console.log('SQL Error:', err);
       res.status(205).send("Unsuccessful To submit Order");

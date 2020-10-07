@@ -148,13 +148,13 @@ class CustomerMain extends Component {
                     </Button>
                     </Form>
                     <RadioGroup onChange={this.onChange} horizontal>
-                        <RadioButton value="pickup">
+                        <RadioButton value="pickup" rootColor="#de3933" pointColor="#0c0d0c">
                             PickUp
                          </RadioButton>
-                        <RadioButton value="dinein">
+                        <RadioButton value="dinein" rootColor="#de3933" pointColor="#0c0d0c">
                             Dine In
                          </RadioButton>
-                        <RadioButton value="delivery">
+                        <RadioButton value="delivery" rootColor="#de3933" pointColor="#0c0d0c">
                             Yelp Delivery
                         </RadioButton>
                     </RadioGroup>

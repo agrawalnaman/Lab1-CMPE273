@@ -20,7 +20,6 @@ class RestaurantEvents extends Component {
         this.state = {
             events: "",
             addEventModal: false,
-            eventAdded:"",
             name:"",
             description:"",
             time:"",
@@ -93,7 +92,6 @@ class RestaurantEvents extends Component {
             this.setState({
                 events: response.data,
                 addEventModal: false,
-                eventAdded:"",
                 name:"",
                 description:"",
                 time:"",
@@ -102,6 +100,7 @@ class RestaurantEvents extends Component {
                 hashtags:"",
                 customerListModal:"",
                 customerListEventID:"",
+                customerList:[],
             });
         });
 
@@ -134,28 +133,34 @@ class RestaurantEvents extends Component {
             .then((response) => {
                 console.log("Status Code : ", response.status);
                 if (response.status === 200) {
-                    this.setState({
-                        eventAdded: (
-                            <h3>
-                                New Event Added!
-                            </h3>
-                        ),
-                    });
-
+                    window.alert("Event Added");
                 } else {
-                    this.setState({
-                        eventAdded: (
-                            <h3>
-                                Unable to Add New Event!
-                            </h3>
-                        ),
-                    });
+                    window.alert("unable Add Event");
 
                 }
             })
             .catch((e) => {
                 debugger;
                 console.log("FAIL!!!");
+            });
+
+            var data1 = { params: { idRestaurants: +localStorage.getItem("r_id") } };
+            axios.get("http://localhost:3001/getRestaurantEvents", data1).then((response) => {
+                //update the state with the response data
+                console.log(response.data);
+                this.setState({
+                    events: response.data,
+                    addEventModal: false,
+                    name:"",
+                    description:"",
+                    time:"",
+                    date:"",
+                    location:"",
+                    hashtags:"",
+                    customerListModal:"",
+                    customerListEventID:"",
+                    customerList:[],
+                });
             });
     };
 
@@ -221,7 +226,6 @@ class RestaurantEvents extends Component {
                         <Button variant="primary" type="submit">
                             Add
                         </Button>
-                        {this.state.eventAdded}
                     </Form>
                 </Modal.Body>
 
@@ -236,7 +240,7 @@ class RestaurantEvents extends Component {
                 <Modal.Header closeButton>
                     <Modal.Title>Customer List</Modal.Title>
                 </Modal.Header>
-                {this.state.customerList !== undefined ? this.state.customerList.map((d) => {
+                {this.state.customerList !== undefined && this.state.customerList.length !== 0  ? this.state.customerList.map((d) => {
                    
                     return(
                         <Link to={{ 
@@ -245,7 +249,7 @@ class RestaurantEvents extends Component {
                            }}>
                             {d.FirstName} {d.LastName}
                            </Link>
-                    )}) :"asda"}
+                    )}) :"No Registrations Yet"}
 
                 <Modal.Footer>
                     <Button variant="primary" onClick={() => this.setState({ customerListModal: false })}>Close</Button>

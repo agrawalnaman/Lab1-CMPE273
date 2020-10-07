@@ -31,6 +31,7 @@ class ResturantOrders extends Component {
         this.editOrderStatusHandler = this.editOrderStatusHandler.bind(this);
         this.statusChangeHandler = this.statusChangeHandler.bind(this);
         this.submitStatus = this.submitStatus.bind(this);
+        this.onChange=this.onChange.bind(this);
     }
 
     editOrderStatusHandler = (d) => {

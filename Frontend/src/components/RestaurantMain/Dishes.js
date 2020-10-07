@@ -26,9 +26,9 @@ class Dishes extends Component {
             ingredients: "",
             category: "",
             imageURL: "",
-            dishAdded: "",
+            
             idDishes:"",
-            dishEdited:"",
+        
         };
         this.addDishHandler = this.addDishHandler.bind(this);
         this.editDishHandler = this.editDishHandler.bind(this);
@@ -95,9 +95,8 @@ class Dishes extends Component {
                 price: "",
                 ingredients: "",
                 category: "",
-                dishAdded: "",
                 idDishes:"",
-                dishEdited:"",
+            
             });
         });
 
@@ -128,22 +127,9 @@ class Dishes extends Component {
             .then((response) => {
                 console.log("Status Code : ", response.status);
                 if (response.status === 200) {
-                    this.setState({
-                        dishEdited: (
-                            <h3>
-                                Dish Edited!
-                            </h3>
-                        ),
-                    });
-
+                    window.alert("Dish Edited Successfully");
                 } else {
-                    this.setState({
-                        dishEdited: (
-                            <h3>
-                                Unable to Edit!
-                            </h3>
-                        ),
-                    });
+                    window.alert("Unable to edit dish!");
 
                 }
             })
@@ -151,6 +137,25 @@ class Dishes extends Component {
                 debugger;
                 console.log("FAIL!!!");
             });
+
+
+            var data1 = { params: { idRestaurants: +localStorage.getItem("r_id") } };
+            axios.get("http://localhost:3001/getRestaurantDishes", data1).then((response) => {
+                //update the state with the response data
+                console.log(response.data);
+                this.setState({
+                    dishes: response.data,
+                    addDishModal: false,
+                    editDishModal: false,
+                    dishName: "",
+                    price: "",
+                    ingredients: "",
+                    category: "",
+                    idDishes:"",
+                
+                });
+            });
+    
     };
 
 
@@ -176,29 +181,34 @@ class Dishes extends Component {
             .then((response) => {
                 console.log("Status Code : ", response.status);
                 if (response.status === 200) {
-                    this.setState({
-                        dishAdded: (
-                            <h3>
-                                New Dish Added!
-                            </h3>
-                        ),
-                    });
+                    window.alert("Dish Added To Menu!");
 
                 } else {
-                    this.setState({
-                        dishAdded: (
-                            <h3>
-                                Unable to Add New Dish!
-                            </h3>
-                        ),
-                    });
-
+                    window.alert("Unable to Add Dish");
                 }
             })
             .catch((e) => {
                 debugger;
                 console.log("FAIL!!!");
             });
+
+            var data2 = { params: { idRestaurants: +localStorage.getItem("r_id") } };
+            axios.get("http://localhost:3001/getRestaurantDishes", data2).then((response) => {
+                //update the state with the response data
+                console.log(response.data);
+                this.setState({
+                    dishes: response.data,
+                    addDishModal: false,
+                    editDishModal: false,
+                    dishName: "",
+                    price: "",
+                    ingredients: "",
+                    category: "",
+                    idDishes:"",
+                
+                });
+            });
+    
     };
 
     render() {
@@ -239,7 +249,7 @@ class Dishes extends Component {
                         <Button variant="primary" type="submit">
                             Add
                         </Button>
-                        {this.state.dishAdded}
+                       
                     </Form>
                 </Modal.Body>
 
@@ -286,7 +296,7 @@ class Dishes extends Component {
                         <Button variant="primary" type="submit">
                             Edit
                     </Button>
-                        {this.state.dishEdited}
+                
                     </Form>
                 </Modal.Body>
 

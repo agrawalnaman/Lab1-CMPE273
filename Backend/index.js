@@ -405,14 +405,26 @@ app.post("/postReview", function (req, res) {
 
 //Route to place order by customer 
 app.post("/submitOrder", function (req, res) {
-  console.log("Inside place order by customer  section");
+  console.log("Inside place order by customer  section",req.body);
   var sql ="INSERT INTO Orders (deliveryMode,customerID,restaurantID,time,orderStatus) VALUES (?,?,?,now(),?)";
+  var sql1 ="INSERT INTO OrderDetails (`orderID`, `dishID`, `quantity`) VALUES (?, ?, ?)";
   con.query(sql, [req.body.deliverymode,req.body.idCustomers,req.body.finalorder[0].restaurantID,"orderrecieved"], function (err, result) {
     if (err) {
       console.log('SQL Error:', err);
       res.status(205).send("Unsuccessful To submit Order");
     }
     else {
+     
+      req.body.finalorder.forEach(function (orderItem) {
+        
+    con.query(sql1, [result.insertId,orderItem.idDishes,orderItem.quantity], function (err, result) {
+    if (err) {
+      console.log('SQL Error:', err);
+      res.status(205).send("Unsuccessful to insert into order details");
+    }});
+
+    });
+      console.log("last transaction id:",result);
       res.status(200).send("order Submitted");
     }
   });
@@ -743,6 +755,24 @@ app.get("/getCustomerOrders", function (req, res) {
     }
   });
 });
+
+//Route to get customer order details
+app.get("/getCustomerOrderDetails", function (req, res) {
+  console.log("Inside Customers orders details section");
+  var idOrders = req.query.idOrders;
+  console.log(idOrders);
+  var sql = "SELECT Dishes.*,OrderDetails.quantity FROM OrderDetails INNER JOIN Dishes ON OrderDetails.dishID = Dishes.idDishes WHERE OrderDetails.orderID = ?";
+  con.query(sql, [idOrders], function (err, result) {
+    if (err) {
+      console.log('SQL Error:', err);
+      res.status(205).send("Unsuccessful To orders list");
+    }
+    else {
+      res.status(200).send(result);
+    }
+  });
+});
+
 
 //Route to update order status through restaurant
 app.post("/updateOrderStatus", function (req, res) {

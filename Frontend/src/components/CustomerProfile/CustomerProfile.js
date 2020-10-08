@@ -58,7 +58,6 @@ class CustomerProfile extends Component {
                 phone: response.data[0].Phone,
                 firstname: response.data[0].FirstName,
                 lastname: response.data[0].LastName,
-                password: response.data[0].Password,
                 about: response.data[0].About,
                 favourites: response.data[0].Favourites,
                 dob: response.data[0].DOB,
@@ -132,6 +131,34 @@ class CustomerProfile extends Component {
         });
     };
 
+    submitNewPassword = (e) => {
+        var headers = new Headers();
+        e.preventDefault();
+        console.log("inside submit new password");
+        const data = {
+            password: this.state.password,
+            idCustomers: +localStorage.getItem("c_id"),
+        };
+        axios.defaults.withCredentials = true;
+        axios
+            .post("http://localhost:3001/updateCustomerPassword", data)
+            .then((response) => {
+                console.log("Status Code : ", response);
+                if (response.status === 200) {
+                    console.log("password call status:", response.status);
+                     window.alert("Password Changed");
+
+                } else {
+                    console.log("password call status else:", response.status);
+                    window.alert("Unable to Change Password");
+
+                }
+            }) .catch((e) => {
+                debugger;
+                console.log("FAIL!!!");
+            });
+    };
+
     getProfile = (e) => {
 
         var data = { params: { idCustomers: +localStorage.getItem("c_id") } };
@@ -172,7 +199,7 @@ class CustomerProfile extends Component {
                     </div>),
             });
         });
-    }
+    };
 
 
     submitUpdateProfile = (e) => {
@@ -185,7 +212,6 @@ class CustomerProfile extends Component {
             country: this.state.country,
             firstname: this.state.firstname,
             lastname: this.state.lastname,
-            password: this.state.password,
             about: this.state.about,
             favourites: this.state.favourites,
             dob: this.state.dob,
@@ -238,83 +264,111 @@ class CustomerProfile extends Component {
             redirectVar = <Redirect to="/login" />;
         }
         return (
-            <div>
-                {redirectVar}
-                {this.state.profile}
-                <Button onClick={this.getProfile}>
-                        Get Updated Profile
+            <div class="row">
+
+                <div class="col">
+                    <Form onSubmit={this.submitUpdateProfile} >
+                        <Form.Row>
+                            <Form.Group controlId="formBasicEmail" >
+                                <Form.Label>Email address</Form.Label>
+                                <Form.Control type="email" placeholder="Enter email" onChange={this.emailChangeHandler} defaultValue={this.state.email} />
+                                <Form.Text className="text-muted">
+                                    We'll never share your email with anyone else.
+                    </Form.Text>
+                            </Form.Group>
+                        </Form.Row>
+                        <Form.Row>
+                            <Form.Group controlId="formBasicFirstName">
+                                <Form.Label>First Name</Form.Label>
+                                <Form.Control type="text" placeholder="First Name" onChange={this.firstnameChangeHandler} defaultValue={this.state.firstname} />
+                            </Form.Group>
+
+                            <Form.Group controlId="formBasicLastName">
+                                <Form.Label>Last Name</Form.Label>
+                                <Form.Control type="text" placeholder="Last Name" onChange={this.lastnameChangeHandler} defaultValue={this.state.lastname} />
+                            </Form.Group>
+                        </Form.Row>
+                        <Form.Row>
+                            <Form.Group controlId="formBasicCountry">
+                                <Form.Label>Country</Form.Label>
+                                <Form.Control type="text" placeholder="Country" onChange={this.countryChangeHandler} defaultValue={this.state.country} />
+                            </Form.Group>
+                            <Form.Group controlId="formBasicState">
+                                <Form.Label>State</Form.Label>
+                                <Form.Control type="text" placeholder="State" onChange={this.stateChangeHandler} defaultValue={this.state.state} />
+                            </Form.Group>
+                            <Form.Group controlId="formBasicCity">
+                                <Form.Label>City</Form.Label>
+                                <Form.Control type="text" placeholder="City" onChange={this.cityChangeHandler} defaultValue={this.state.city} />
+                            </Form.Group> </Form.Row>
+                        <Form.Row>
+                            <Form.Group controlId="formBasicAbout">
+                                <Form.Label>About</Form.Label>
+                                <Form.Control type="text" placeholder="About" onChange={this.aboutChangeHandler} defaultValue={this.state.about} />
+                            </Form.Group>
+                            <Form.Group controlId="formBasicFavourites">
+                                <Form.Label>Favourites</Form.Label>
+                                <Form.Control type="text" placeholder="Favourites" onChange={this.favouritesChangeHandler} defaultValue={this.state.favourites} />
+                            </Form.Group>
+                        </Form.Row>
+                        <Form.Row>
+                            <Form.Group controlId="formBasicDOB">
+                                <Form.Label>Date of Birth</Form.Label>
+                                <Form.Control type="text" placeholder="Date Of Birth" onChange={this.dobChangeHandler} defaultValue={this.state.dob} />
+                            </Form.Group>
+                            <Form.Group controlId="formBasicPhone">
+                                <Form.Label>Phone</Form.Label>
+                                <Form.Control type="text" placeholder="Phone" onChange={this.phoneChangeHandler} defaultValue={this.state.phone} />
+                            </Form.Group>
+                            <Form.Group controlId="formBasicNickName">
+                                <Form.Label>NickName</Form.Label>
+                                <Form.Control type="text" placeholder="NickName" onChange={this.nicknameChangeHandler} defaultValue={this.state.nickname} />
+                            </Form.Group>
+                        </Form.Row>
+
+                        <Button variant="danger" type="submit">
+                            Update
                 </Button>
-                <div class="container">
+                    </Form>
+
+                    {this.state.profileUpdated}
+
 
                 </div>
-                <Form onSubmit={this.submitUpdateProfile} >
-                    <Form.Row>
-                        <Form.Group controlId="formBasicEmail" >
-                            <Form.Label>Email address</Form.Label>
-                            <Form.Control type="email" placeholder="Enter email" onChange={this.emailChangeHandler} defaultValue={this.state.email} />
-                            <Form.Text className="text-muted">
-                                We'll never share your email with anyone else.
-                    </Form.Text>
-                        </Form.Group>
-                        <Form.Group controlId="formBasicPassword">
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control type="text" placeholder="Password" onChange={this.passwordChangeHandler} defaultValue={this.state.password} />
-                        </Form.Group> </Form.Row>
-                    <Form.Row>
-                        <Form.Group controlId="formBasicFirstName">
-                            <Form.Label>First Name</Form.Label>
-                            <Form.Control type="text" placeholder="First Name" onChange={this.firstnameChangeHandler} defaultValue={this.state.firstname} />
-                        </Form.Group>
-
-                        <Form.Group controlId="formBasicLastName">
-                            <Form.Label>Last Name</Form.Label>
-                            <Form.Control type="text" placeholder="Last Name" onChange={this.lastnameChangeHandler} defaultValue={this.state.lastname} />
-                        </Form.Group>
-                    </Form.Row>
-                    <Form.Row>
-                        <Form.Group controlId="formBasicCountry">
-                            <Form.Label>Country</Form.Label>
-                            <Form.Control type="text" placeholder="Country" onChange={this.countryChangeHandler} defaultValue={this.state.country} />
-                        </Form.Group>
-                        <Form.Group controlId="formBasicState">
-                            <Form.Label>State</Form.Label>
-                            <Form.Control type="text" placeholder="State" onChange={this.stateChangeHandler} defaultValue={this.state.state} />
-                        </Form.Group>
-                        <Form.Group controlId="formBasicCity">
-                            <Form.Label>City</Form.Label>
-                            <Form.Control type="text" placeholder="City" onChange={this.cityChangeHandler} defaultValue={this.state.city} />
-                        </Form.Group> </Form.Row>
-                    <Form.Row>
-                        <Form.Group controlId="formBasicAbout">
-                            <Form.Label>About</Form.Label>
-                            <Form.Control type="text" placeholder="About" onChange={this.aboutChangeHandler} defaultValue={this.state.about} />
-                        </Form.Group>
-                        <Form.Group controlId="formBasicFavourites">
-                            <Form.Label>Favourites</Form.Label>
-                            <Form.Control type="text" placeholder="Favourites" onChange={this.favouritesChangeHandler} defaultValue={this.state.favourites} />
-                        </Form.Group>
-                    </Form.Row>
-                    <Form.Row>
-                        <Form.Group controlId="formBasicDOB">
-                            <Form.Label>Date of Birth</Form.Label>
-                            <Form.Control type="text" placeholder="Date Of Birth" onChange={this.dobChangeHandler} defaultValue={this.state.dob} />
-                        </Form.Group>
-                        <Form.Group controlId="formBasicPhone">
-                            <Form.Label>Phone</Form.Label>
-                            <Form.Control type="text" placeholder="Phone" onChange={this.phoneChangeHandler} defaultValue={this.state.phone} />
-                        </Form.Group>
-                        <Form.Group controlId="formBasicNickName">
-                            <Form.Label>NickName</Form.Label>
-                            <Form.Control type="text" placeholder="NickName" onChange={this.nicknameChangeHandler} defaultValue={this.state.nickname} />
-                        </Form.Group>
-                    </Form.Row>
-
-                    <Button variant="danger" type="submit">
-                        Update
+                <div class="col">
+                    {redirectVar}
+                    {this.state.profile}
+                    <Button onClick={this.getProfile}>
+                        Get Updated Profile
                 </Button>
-                </Form>
-                {this.state.profileUpdated}
+                </div>
 
+
+                <div class="col">
+                    <Accordion>
+                        <Card>
+                            <Card.Header>
+                                <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                                    Change Password
+                                     </Accordion.Toggle>
+                            </Card.Header>
+                            <Accordion.Collapse eventKey="0">
+                                <Card.Body>
+                                    <Form onSubmit={this.submitNewPassword} >
+                                        <Form.Group controlId="formBasicEmail" >
+                                            <Form.Label>New Password</Form.Label>
+                                            <Form.Control type="password" placeholder="Password" onChange={this.passwordChangeHandler} />
+                                        </Form.Group>
+                                        <Button variant="danger" type="submit">
+                                            Update Password
+                                </Button>
+                                    </Form>
+
+                                </Card.Body>
+                            </Accordion.Collapse>
+                        </Card>
+                    </Accordion>
+                </div>
 
             </div>
         );

@@ -12,6 +12,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Col';
 import Button from "react-bootstrap/esm/Button";
 
+
 //Define a Login Component
 class RestaurantMain extends Component {
     //call the constructor method
@@ -51,6 +52,7 @@ class RestaurantMain extends Component {
                             <Tab.Content>
                                 <Tab.Pane eventKey="RestaurantProfile">
                                     <RestaurantProfile/>
+                                   
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="Dishes">
                                     <Dishes/>

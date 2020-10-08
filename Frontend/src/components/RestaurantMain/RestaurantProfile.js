@@ -5,7 +5,8 @@ import cookie from "react-cookies";
 import { Redirect } from "react-router";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-
+import Accordion from 'react-bootstrap/Accordion';
+import Card from 'react-bootstrap/Card';
 //Define a Login Component
 class RestaurantProfile extends Component {
     //call the constructor method
@@ -36,7 +37,6 @@ class RestaurantProfile extends Component {
                 profileUpdated:"",
                 email:response.data[0].Email,
                 name: response.data[0].Name,
-                password:response.data[0].Password,
                 location:response.data[0].Location,
                 description:response.data[0].Description,
                 contact:response.data[0].Contact,
@@ -79,6 +79,35 @@ class RestaurantProfile extends Component {
           password : e.target.value,
         });
     };
+
+
+    submitNewPassword = (e) => {
+      var headers = new Headers();
+      e.preventDefault();
+      console.log("inside submit new password restaurant");
+      const data = {
+          password: this.state.password,
+          idRestaurants: +localStorage.getItem("r_id"),
+      };
+      axios.defaults.withCredentials = true;
+      axios
+          .post("http://localhost:3001/updateRestaurantPassword", data)
+          .then((response) => {
+              console.log("Status Code : ", response);
+              if (response.status === 200) {
+                  console.log("password call status:", response.status);
+                   window.alert("Password Changed");
+
+              } else {
+                  console.log("password call status else:", response.status);
+                  window.alert("Unable to Change Password");
+
+              }
+          }) .catch((e) => {
+              debugger;
+              console.log("FAIL!!!");
+          });
+  };
 
     submitUpdateProfile = (e) => {
         var headers = new Headers();
@@ -134,14 +163,34 @@ class RestaurantProfile extends Component {
 
 
         return (
+            <div>
+                <Accordion>
+                        <Card>
+                            <Card.Header>
+                                <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                                    Change Password
+                                     </Accordion.Toggle>
+                            </Card.Header>
+                            <Accordion.Collapse eventKey="0">
+                                <Card.Body>
+                                    <Form onSubmit={this.submitNewPassword} >
+                                        <Form.Group controlId="formBasicPassword" >
+                                            <Form.Label>New Password</Form.Label>
+                                            <Form.Control type="password" placeholder="Password" onChange={this.passwordChangeHandler} />
+                                        </Form.Group>
+                                        <Button variant="danger" type="submit">
+                                            Update Password
+                                </Button>
+                                    </Form>
+
+                                </Card.Body>
+                            </Accordion.Collapse>
+                        </Card>
+                    </Accordion>
             <Form onSubmit={this.submitUpdateProfile} >
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
                     <Form.Control type="email" placeholder="Email" onChange={this.emailChangeHandler} defaultValue={this.state.email} />
-                </Form.Group>
-                <Form.Group controlId="formPassword">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control type="text" placeholder="Password" onChange={this.passwordChangeHandler} defaultValue={this.state.password} />
                 </Form.Group>
                 <Form.Group controlId="formBasicName">
                     <Form.Label>Restaurant Name</Form.Label>
@@ -168,6 +217,7 @@ class RestaurantProfile extends Component {
             </Button>
             {this.state.profileUpdated}
             </Form>
+            </div>
         );
 
     }

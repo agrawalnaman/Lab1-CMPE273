@@ -32,7 +32,7 @@ class RestaurantPage extends Component {
         if (cookie.load("cookie")) {
         var data = { params: { idRestaurants: this.props.location.state } };
        
-        axios.get("http://localhost:3001/restaurantProfile", data).then((response) => {
+        axios.get("http://54.218.99.27:3001/restaurantProfile", data).then((response) => {
             //update the state with the response data
             console.log("profile did mount:", response.data[0]);
             this.setState({
@@ -85,7 +85,7 @@ class RestaurantPage extends Component {
         //make a post request with the user data
         // this.props.signup(data);
         axios
-            .post("http://localhost:3001/postReview", data)
+            .post("http://54.218.99.27:3001/postReview", data)
             .then((response) => {
                 console.log("Status Code : ", response.status);
                 if (response.status === 200) {
@@ -112,7 +112,7 @@ class RestaurantPage extends Component {
                 console.log("FAIL!!!");
             });
             var data1 = { params: { idRestaurants: this.props.location.state } };
-            axios.get("http://localhost:3001/getRestaurantOrders", data1).then((response) => {
+            axios.get("http://54.218.99.27:3001/getRestaurantOrders", data1).then((response) => {
                 //update the state with the response data
                 console.log(response.data);
                 this.setState({

@@ -84,7 +84,7 @@ class Dishes extends Component {
     };
     componentDidMount() {
         var data = { params: { idRestaurants: +localStorage.getItem("r_id") } };
-        axios.get("http://localhost:3001/getRestaurantDishes", data).then((response) => {
+        axios.get("http://54.218.99.27:3001/getRestaurantDishes", data).then((response) => {
             //update the state with the response data
             console.log(response.data);
             this.setState({
@@ -123,7 +123,7 @@ class Dishes extends Component {
         //make a post request with the user data
         // this.props.signup(data);
         axios
-            .post("http://localhost:3001/restaurantEditNewDish", data)
+            .post("http://54.218.99.27:3001/restaurantEditNewDish", data)
             .then((response) => {
                 console.log("Status Code : ", response.status);
                 if (response.status === 200) {
@@ -140,7 +140,7 @@ class Dishes extends Component {
 
 
             var data1 = { params: { idRestaurants: +localStorage.getItem("r_id") } };
-            axios.get("http://localhost:3001/getRestaurantDishes", data1).then((response) => {
+            axios.get("http://54.218.99.27:3001/getRestaurantDishes", data1).then((response) => {
                 //update the state with the response data
                 console.log(response.data);
                 this.setState({
@@ -177,7 +177,7 @@ class Dishes extends Component {
         //make a post request with the user data
         // this.props.signup(data);
         axios
-            .post("http://localhost:3001/restaurantAddNewDish", data)
+            .post("http://54.218.99.27:3001/restaurantAddNewDish", data)
             .then((response) => {
                 console.log("Status Code : ", response.status);
                 if (response.status === 200) {
@@ -193,7 +193,7 @@ class Dishes extends Component {
             });
 
             var data2 = { params: { idRestaurants: +localStorage.getItem("r_id") } };
-            axios.get("http://localhost:3001/getRestaurantDishes", data2).then((response) => {
+            axios.get("http://54.218.99.27:3001/getRestaurantDishes", data2).then((response) => {
                 //update the state with the response data
                 console.log(response.data);
                 this.setState({

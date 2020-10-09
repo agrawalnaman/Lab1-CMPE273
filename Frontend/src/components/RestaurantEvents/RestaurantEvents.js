@@ -86,7 +86,7 @@ class RestaurantEvents extends Component {
     };
     componentDidMount() {
         var data = { params: { idRestaurants: +localStorage.getItem("r_id") } };
-        axios.get("http://localhost:3001/getRestaurantEvents", data).then((response) => {
+        axios.get("http://54.218.99.27:3001/getRestaurantEvents", data).then((response) => {
             //update the state with the response data
             console.log(response.data);
             this.setState({
@@ -129,7 +129,7 @@ class RestaurantEvents extends Component {
         //make a post request with the user data
         // this.props.signup(data);
         axios
-            .post("http://localhost:3001/restaurantAddNewEvent", data)
+            .post("http://54.218.99.27:3001/restaurantAddNewEvent", data)
             .then((response) => {
                 console.log("Status Code : ", response.status);
                 if (response.status === 200) {
@@ -145,7 +145,7 @@ class RestaurantEvents extends Component {
             });
 
             var data1 = { params: { idRestaurants: +localStorage.getItem("r_id") } };
-            axios.get("http://localhost:3001/getRestaurantEvents", data1).then((response) => {
+            axios.get("http://54.218.99.27:3001/getRestaurantEvents", data1).then((response) => {
                 //update the state with the response data
                 console.log(response.data);
                 this.setState({
@@ -169,7 +169,7 @@ class RestaurantEvents extends Component {
  
 
         var data = { params: { idEvents: d.idEvents } };
-        axios.get("http://localhost:3001/getCustomerListEvent", data).then((response) => {
+        axios.get("http://54.218.99.27:3001/getCustomerListEvent", data).then((response) => {
             //update the state with the response data
             console.log(response.data);
             this.setState({

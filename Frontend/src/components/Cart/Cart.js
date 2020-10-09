@@ -38,7 +38,7 @@ export default function Cart({ cart, setCart,restaurantID }) {
         finalorder:finalOrder,
     };
     axios.defaults.withCredentials = true;
-    axios.post("http://localhost:3001/submitOrder", data)
+    axios.post("http://54.218.99.27:3001/submitOrder", data)
     .then((response) => {
         console.log("Status Code : ", response.status);
         if (response.status === 200) {

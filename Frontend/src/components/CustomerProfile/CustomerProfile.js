@@ -50,7 +50,7 @@ class CustomerProfile extends Component {
         if (cookie.load("cookie")) {
         var data = { params: { idCustomers: +localStorage.getItem("c_id") } };
         console.log("c_id profile customer did mount", localStorage.getItem("c_id"));
-        axios.get("http://localhost:3001/customerProfile", data).then((response) => {
+        axios.get("http://54.218.99.27:3001/customerProfile", data).then((response) => {
             //update the state with the response data
             console.log("profile did mount:", response.data[0]);
             this.setState({
@@ -143,7 +143,7 @@ class CustomerProfile extends Component {
         };
         axios.defaults.withCredentials = true;
         axios
-            .post("http://localhost:3001/updateCustomerPassword", data)
+            .post("http://54.218.99.27:3001/updateCustomerPassword", data)
             .then((response) => {
                 console.log("Status Code : ", response);
                 if (response.status === 200) {
@@ -164,7 +164,7 @@ class CustomerProfile extends Component {
     getProfile = (e) => {
 
         var data = { params: { idCustomers: +localStorage.getItem("c_id") } };
-        axios.get("http://localhost:3001/customerProfile", data).then((response) => {
+        axios.get("http://54.218.99.27:3001/customerProfile", data).then((response) => {
             //update the state with the response data
             console.log(response);
             this.setState({
@@ -228,7 +228,7 @@ class CustomerProfile extends Component {
         //make a post request with the user data
         // this.props.signup(data);
         axios
-            .post("http://localhost:3001/updateCustomerProfile", data)
+            .post("http://54.218.99.27:3001/updateCustomerProfile", data)
             .then((response) => {
                 console.log("Status Code : ", response.status);
                 if (response.status === 200) {

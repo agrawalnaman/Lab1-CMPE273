@@ -57,7 +57,7 @@ class Home extends Component {
   getProfile = (e) => {
 
     var data = {params:{idCustomers:+localStorage.getItem("c_id")}};
-    axios.get("http://localhost:3001/customerProfile",data).then((response) => {
+    axios.get("http://54.218.99.27:3001/customerProfile",data).then((response) => {
    //update the state with the response data
    console.log(response);
    this.setState({
@@ -92,7 +92,7 @@ class Home extends Component {
     //make a post request with the user data
     // this.props.signup(data);
     axios
-      .post("http://localhost:3001/updateCustomerProfile", data)
+      .post("http://54.218.99.27:3001/updateCustomerProfile", data)
       .then((response) => {
         console.log("Status Code : ", response.status);
         if (response.status === 200) {
@@ -133,7 +133,7 @@ class Home extends Component {
   // UNSAFE_componentWillReceiveProps(nextProps) {
   //   if (nextProps.loginState.customerID) {
   //     var data = {params:{idCustomers:nextProps.loginState.customerID}};
-  //     axios.get("http://localhost:3001/customerProfile",data).then((response) => {
+  //     axios.get("http://54.218.99.27:3001/customerProfile",data).then((response) => {
   //       //update the state with the response data
   //       console.log(response);
   //       this.setState({

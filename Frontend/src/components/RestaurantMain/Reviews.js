@@ -19,7 +19,7 @@ class Reviews extends Component {
 
     componentDidMount() {
         var data = { params: { idRestaurants: +localStorage.getItem("r_id") } };
-        axios.get("http://localhost:3001/getRestaurantReviews", data).then((response) => {
+        axios.get("http://54.218.99.27:3001/getRestaurantReviews", data).then((response) => {
             //update the state with the response data
             console.log(response.data);
             this.setState({

@@ -52,7 +52,7 @@ class ResturantOrders extends Component {
 
     componentDidMount() {
         var data = { params: { idRestaurants: +localStorage.getItem("r_id") } };
-        axios.get("http://localhost:3001/getRestaurantOrders", data).then((response) => {
+        axios.get("http://54.218.99.27:3001/getRestaurantOrders", data).then((response) => {
             //update the state with the response data
             console.log(response.data);
             this.setState({
@@ -110,13 +110,13 @@ class ResturantOrders extends Component {
         //make a post request with the user data
         // this.props.signup(data);
         axios
-            .post("http://localhost:3001/updateOrderStatus", data)
+            .post("http://54.218.99.27:3001/updateOrderStatus", data)
             .then((response) => {
                 console.log("Status Code : ", response.status);
                 if (response.status === 200) {
                     window.alert("Order Status Updated");
                     var data = { params: { idRestaurants: +localStorage.getItem("r_id") } };
-                    axios.get("http://localhost:3001/getRestaurantOrders", data).then((response) => {
+                    axios.get("http://54.218.99.27:3001/getRestaurantOrders", data).then((response) => {
                         //update the state with the response data
                         console.log(response.data);
                         this.setState({

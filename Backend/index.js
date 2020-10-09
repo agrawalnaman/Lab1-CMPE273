@@ -20,7 +20,7 @@ var con = mysql.createConnection({
 });
 
 //use cors to allow cross origin resource sharing
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(cors({ origin: "http://54.218.99.27:3000", credentials: true }));
 
 //use express session to maintain session data
 app.use(
@@ -40,7 +40,7 @@ app.use(bodyParser.json());
 
 //Allow Access Control
 app.use(function (req, res, next) {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.setHeader("Access-Control-Allow-Origin", "http://54.218.99.27:3000");
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader(
     "Access-Control-Allow-Methods",

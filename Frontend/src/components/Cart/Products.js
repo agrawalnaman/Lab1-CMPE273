@@ -13,7 +13,7 @@ export default function Products({ setCart, cart,restaurantID }) {
     const fetchData = async () => {
         console.log("nmn rest ID:",restaurantID);
         var data = { params: { idRestaurants:restaurantID} };
-      const result =await axios.get("http://localhost:3001/getRestaurantDishes", data);
+      const result =await axios.get("http://54.218.99.27:3001/getRestaurantDishes", data);
         console.log("products:",result);
       setData(result.data);
     };

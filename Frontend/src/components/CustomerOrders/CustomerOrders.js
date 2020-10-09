@@ -36,7 +36,7 @@ class CustomerOrders extends Component {
 
     componentDidMount() {
         var data = { params: { idCustomers: +localStorage.getItem("c_id") } };
-        axios.get("http://localhost:3001/getCustomerOrders", data).then((response) => {
+        axios.get("http://54.218.99.27:3001/getCustomerOrders", data).then((response) => {
             //update the state with the response data
             console.log(response.data);
             this.setState({
@@ -69,13 +69,13 @@ class CustomerOrders extends Component {
         //make a post request with the user data
         // this.props.signup(data);
         axios
-            .post("http://localhost:3001/updateOrderStatus", data)
+            .post("http://54.218.99.27:3001/updateOrderStatus", data)
             .then((response) => {
                 console.log("Status Code : ", response.status);
                 if (response.status === 200) {
                     window.alert("Order Status Updated");
                     var data1 = { params: { idCustomers: +localStorage.getItem("c_id") } };
-                    axios.get("http://localhost:3001/getCustomerOrders", data1).then((response) => {
+                    axios.get("http://54.218.99.27:3001/getCustomerOrders", data1).then((response) => {
                         //update the state with the response data
                         console.log(response.data);
                         this.setState({
@@ -121,7 +121,7 @@ class CustomerOrders extends Component {
     };
     fetchOrderDetails = (idOrders) => {
         var data = { params: { idOrders: idOrders } };
-        axios.get("http://localhost:3001/getCustomerOrderDetails", data).then((response) => {
+        axios.get("http://54.218.99.27:3001/getCustomerOrderDetails", data).then((response) => {
             //update the state with the response data
             console.log("OrderDetails:",response.data);
             this.setState({

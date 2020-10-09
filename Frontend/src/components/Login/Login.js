@@ -70,7 +70,7 @@ class Login extends Component {
     if (this.state.persona === "Customer") {
       //make a post request with the user data
       axios
-        .post("http://localhost:3001/customerLogin", data)
+        .post("http://54.218.99.27:3001/customerLogin", data)
         .then((response) => {
           console.log("Status Code : ", response.status);
           console.log(response.data);
@@ -114,7 +114,7 @@ class Login extends Component {
     else {
       //make a post request with the user data
       axios
-        .post("http://localhost:3001/restaurantLogin", data)
+        .post("http://54.218.99.27:3001/restaurantLogin", data)
         .then((response) => {
           console.log("Status Code : ", response.status);
           console.log(response.data);

@@ -31,7 +31,7 @@ class RestaurantProfile extends Component {
         var data = { params: { idRestaurants: +localStorage.getItem("r_id") } };
         console.log("r_id profile resturant did mount",localStorage.getItem("r_id")); 
         if (cookie.load("cookie")) {
-        axios.get("http://localhost:3001/restaurantProfile", data).then((response) => {
+        axios.get("http://54.218.99.27:3001/restaurantProfile", data).then((response) => {
             //update the state with the response data
             console.log("profile did mount:",response.data[0]);
             this.setState({
@@ -93,7 +93,7 @@ class RestaurantProfile extends Component {
       };
       axios.defaults.withCredentials = true;
       axios
-          .post("http://localhost:3001/updateRestaurantPassword", data)
+          .post("http://54.218.99.27:3001/updateRestaurantPassword", data)
           .then((response) => {
               console.log("Status Code : ", response);
               if (response.status === 200) {
@@ -131,7 +131,7 @@ class RestaurantProfile extends Component {
         //make a post request with the user data
         // this.props.signup(data);
         axios
-          .post("http://localhost:3001/updateRestaurantProfile", data)
+          .post("http://54.218.99.27:3001/updateRestaurantProfile", data)
           .then((response) => {
             console.log("Status Code : ", response.status);
             if (response.status === 200) {

@@ -30,6 +30,7 @@ class RestaurantProfile extends Component {
     componentDidMount() {
         var data = { params: { idRestaurants: +localStorage.getItem("r_id") } };
         console.log("r_id profile resturant did mount",localStorage.getItem("r_id")); 
+        if (cookie.load("cookie")) {
         axios.get("http://localhost:3001/restaurantProfile", data).then((response) => {
             //update the state with the response data
             console.log("profile did mount:",response.data[0]);
@@ -43,6 +44,7 @@ class RestaurantProfile extends Component {
                 timings:response.data[0].Timings,
             });
         });
+    }
     }
     emailChangeHandler = (e) => {
         this.setState({
@@ -160,10 +162,11 @@ class RestaurantProfile extends Component {
     
  
     render() {
-
+ 
 
         return (
             <div>
+             
                 <Accordion>
                         <Card>
                             <Card.Header>

@@ -29,7 +29,9 @@ class RestaurantPage extends Component {
     }
 
     componentDidMount() {
+        if (cookie.load("cookie")) {
         var data = { params: { idRestaurants: this.props.location.state } };
+       
         axios.get("http://localhost:3001/restaurantProfile", data).then((response) => {
             //update the state with the response data
             console.log("profile did mount:", response.data[0]);
@@ -55,6 +57,7 @@ class RestaurantPage extends Component {
 
             });
         });
+    }
     }
     commentsChangeHandler = (e) => {
         this.setState({
@@ -125,10 +128,17 @@ class RestaurantPage extends Component {
 
 
     render() {
+        let redirectVar = null;
+        let invalidCredentials = null;
+        if (!cookie.load("cookie")) {
+            redirectVar = <Redirect to="/login" />;
+        }
+
 
 
         return (
             <div>
+                {redirectVar}
                 <div class="row">
                     <div class="col-3">
                         <div>

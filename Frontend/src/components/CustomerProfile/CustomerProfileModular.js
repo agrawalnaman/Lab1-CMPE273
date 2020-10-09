@@ -20,6 +20,7 @@ class CustomerProfileModular extends Component {
 
     componentDidMount() {
         var data = { params: { idCustomers: this.props.location.state} };
+        if (cookie.load("cookie")) {
         axios.get("http://localhost:3001/customerProfile", data).then((response) => {
             //update the state with the response data
             console.log("profile did mount:", response.data[0]);
@@ -49,6 +50,7 @@ class CustomerProfileModular extends Component {
             });
 
         });
+    }
     }
 
 

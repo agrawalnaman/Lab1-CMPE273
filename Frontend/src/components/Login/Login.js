@@ -57,6 +57,7 @@ class Login extends Component {
   };
   //submit Login handler to send a request to the node backend
   submitLogin = (e) => {
+    
     var headers = new Headers();
     //prevent page from refresh
     e.preventDefault();
@@ -89,6 +90,7 @@ class Login extends Component {
             this.props.setCustomerID(response.data.idCustomers);
             this.props.setUsername(this.state.username);
             this.props.setAuthFlag(true);
+            window.location.reload();
 
           } else {
             this.setState({
@@ -123,6 +125,7 @@ class Login extends Component {
             this.setState({
               authFlag: true,
             });
+            window.location.reload();
 
 
           } else {
@@ -153,6 +156,7 @@ class Login extends Component {
     let invalidCredentials = null;
     console.log("cookie", cookie.load("cookie"));
     if (cookie.load("cookie") === "customer-admin") {
+      
       redirectVar = <Redirect to="/CustomerMain" />;
     }
     else if (cookie.load("cookie") === "restaurant-admin") {

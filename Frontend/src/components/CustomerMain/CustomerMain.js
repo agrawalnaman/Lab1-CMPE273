@@ -16,6 +16,8 @@ import { RadioGroup, RadioButton} from 'react-radio-buttons';
 class CustomerMain extends Component {
     //call the constructor method
     constructor(props) {
+      
+
         //Call the constrictor of Super class i.e The Component
         super(props);
         //maintain the state required for this component
@@ -34,6 +36,8 @@ class CustomerMain extends Component {
 
 
     componentDidMount() {
+ 
+       
         this.setState({
             searchterm: "",
             category: "",
@@ -43,6 +47,7 @@ class CustomerMain extends Component {
 
         });
 
+       
     }
     searchHandler = (e) => {
         this.setState({

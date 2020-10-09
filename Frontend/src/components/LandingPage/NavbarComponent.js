@@ -26,6 +26,8 @@ class NavbarComponent extends Component {
     localStorage.removeItem("c_id");
     localStorage.removeItem("r_id");
     localStorage.removeItem("persona");
+    window.location.reload(false);
+
   };
   render() {
     console.log("=========================" + localStorage.getItem("persona"));
@@ -55,7 +57,7 @@ class NavbarComponent extends Component {
             </Link>
           </li>
           <li>
-            <Link to="/login">
+            <Link to="/login" >
               <span class="glyphicon glyphicon-log-in"></span> Login
             </Link>
           </li>

@@ -47,6 +47,7 @@ class CustomerProfile extends Component {
     }
 
     componentDidMount() {
+        if (cookie.load("cookie")) {
         var data = { params: { idCustomers: +localStorage.getItem("c_id") } };
         console.log("c_id profile customer did mount", localStorage.getItem("c_id"));
         axios.get("http://localhost:3001/customerProfile", data).then((response) => {
@@ -67,6 +68,7 @@ class CustomerProfile extends Component {
                 nickname: response.data[0].NickName,
             });
         });
+    }
     }
 
     emailChangeHandler = (e) => {

@@ -97,9 +97,7 @@ class NavbarComponent extends Component {
             <span class="glyphicon glyphicon-log-in"></span>Events
             </Link>
         </div>
-        <div class="navbar-brand col-sm">
-            <span class="glyphicon glyphicon-log-in"></span>Restaurants
-            </div>
+       
       </div>
     );
     let redirectVar = null;
@@ -107,9 +105,9 @@ class NavbarComponent extends Component {
       <div>
         {redirectVar}
         <Navbar>
-          <Navbar.Brand href="#">
+          <Navbar.Brand href="">
             <h1 class="homepage-hero_logo" id="logo">
-              <a href="/home">  <img src="https://s3-media0.fl.yelpcdn.com/assets/public/default.yji-a536dc4612adf182807e56e390709483.png" alt="YELP" /></a>
+               <img src="https://s3-media0.fl.yelpcdn.com/assets/public/default.yji-a536dc4612adf182807e56e390709483.png" alt="YELP" />
             </h1>
           </Navbar.Brand>
           {/* <Nav className="mr-auto">

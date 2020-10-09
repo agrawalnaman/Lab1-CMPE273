@@ -137,7 +137,7 @@ class SearchEvents extends Component {
                 <Form onSubmit={this.submitSearchEvent}>
                     <Form.Group controlId="formBasicEventName">
                         <Form.Label>Event Name</Form.Label>
-                        <Form.Control type="text" placeholder="event name" onChange={this.nameHandler} />
+                        <Form.Control type="text" placeholder="event name" onChange={this.nameHandler} required />
                     </Form.Group>
                     <Button variant="primary" type="submit">
                         Search Event

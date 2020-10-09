@@ -165,6 +165,7 @@ class Login extends Component {
         <div class="container">
 
           <div class="login-form">
+            <form onSubmit={this.submitLogin}>
             <ToggleButtonGroup type="radio" name="options" onChange={this.personaChangeHandler} >
               <ToggleButton value={"Customer"}>Customer </ToggleButton>
               <ToggleButton value={"Restaurant"}>Restaurant </ToggleButton>
@@ -195,11 +196,12 @@ class Login extends Component {
                   required
                 />
               </div>
-              <button onClick={this.submitLogin} class="btn btn-primary">
+              <button type="submit" class="btn btn-primary">
                 Login
               </button>
             </div>
             {this.state.invalidCredentials}
+            </form>
           </div>
         </div>
       </div>

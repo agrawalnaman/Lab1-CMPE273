@@ -271,7 +271,7 @@ class CustomerProfile extends Component {
                         <Form.Row>
                             <Form.Group controlId="formBasicEmail" >
                                 <Form.Label>Email address</Form.Label>
-                                <Form.Control type="email" placeholder="Enter email" onChange={this.emailChangeHandler} defaultValue={this.state.email} />
+                                <Form.Control type="email" placeholder="Enter email" onChange={this.emailChangeHandler} defaultValue={this.state.email} required/>
                                 <Form.Text className="text-muted">
                                     We'll never share your email with anyone else.
                     </Form.Text>
@@ -280,12 +280,12 @@ class CustomerProfile extends Component {
                         <Form.Row>
                             <Form.Group controlId="formBasicFirstName">
                                 <Form.Label>First Name</Form.Label>
-                                <Form.Control type="text" placeholder="First Name" onChange={this.firstnameChangeHandler} defaultValue={this.state.firstname} />
+                                <Form.Control type="text" placeholder="First Name" onChange={this.firstnameChangeHandler} defaultValue={this.state.firstname} required/>
                             </Form.Group>
 
                             <Form.Group controlId="formBasicLastName">
                                 <Form.Label>Last Name</Form.Label>
-                                <Form.Control type="text" placeholder="Last Name" onChange={this.lastnameChangeHandler} defaultValue={this.state.lastname} />
+                                <Form.Control type="text" placeholder="Last Name" onChange={this.lastnameChangeHandler} defaultValue={this.state.lastname} required />
                             </Form.Group>
                         </Form.Row>
                         <Form.Row>
@@ -357,7 +357,7 @@ class CustomerProfile extends Component {
                                     <Form onSubmit={this.submitNewPassword} >
                                         <Form.Group controlId="formBasicEmail" >
                                             <Form.Label>New Password</Form.Label>
-                                            <Form.Control type="password" placeholder="Password" onChange={this.passwordChangeHandler} />
+                                            <Form.Control type="password" placeholder="Password" onChange={this.passwordChangeHandler} required/>
                                         </Form.Group>
                                         <Button variant="danger" type="submit">
                                             Update Password

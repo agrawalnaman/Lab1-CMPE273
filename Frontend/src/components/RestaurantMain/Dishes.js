@@ -222,11 +222,11 @@ class Dishes extends Component {
                     <Form onSubmit={this.submitAddDish} >
                         <Form.Group controlId="formDishName">
                             <Form.Label>Dish Name</Form.Label>
-                            <Form.Control type="text" placeholder="Name" onChange={this.dishNameChangeHandler} />
+                            <Form.Control type="text" placeholder="Name" onChange={this.dishNameChangeHandler} required />
                         </Form.Group>
                         <Form.Group controlId="Price">
                             <Form.Label>Price</Form.Label>
-                            <Form.Control type="text" placeholder="Price" onChange={this.priceChangeHandler} />
+                            <Form.Control type="number" step="0.01" placeholder="Price" onChange={this.priceChangeHandler} required/>
                         </Form.Group>
                         <Form.Group controlId="exampleForm.ControlSelect1">
                             <Form.Label>Category</Form.Label>
@@ -269,11 +269,11 @@ class Dishes extends Component {
                     <Form onSubmit={this.submitEditDish} >
                         <Form.Group controlId="formDishName">
                             <Form.Label>Dish Name</Form.Label>
-                            <Form.Control type="text" placeholder="Name" onChange={this.dishNameChangeHandler} defaultValue={this.state.dishName} />
+                            <Form.Control type="text" placeholder="Name" onChange={this.dishNameChangeHandler} defaultValue={this.state.dishName} required />
                         </Form.Group>
                         <Form.Group controlId="Price">
                             <Form.Label>Price</Form.Label>
-                            <Form.Control type="text" placeholder="Price" onChange={this.priceChangeHandler} defaultValue={this.state.price}/>
+                            <Form.Control type="number" step="0.01" placeholder="Price" onChange={this.priceChangeHandler} defaultValue={this.state.price} required/>
                         </Form.Group>
                         <Form.Group controlId="exampleForm.ControlSelect1">
                             <Form.Label>Category</Form.Label>

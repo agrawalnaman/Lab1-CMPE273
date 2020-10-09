@@ -176,7 +176,7 @@ class RestaurantProfile extends Component {
                                     <Form onSubmit={this.submitNewPassword} >
                                         <Form.Group controlId="formBasicPassword" >
                                             <Form.Label>New Password</Form.Label>
-                                            <Form.Control type="password" placeholder="Password" onChange={this.passwordChangeHandler} />
+                                            <Form.Control type="password" placeholder="Password" onChange={this.passwordChangeHandler} required />
                                         </Form.Group>
                                         <Button variant="danger" type="submit">
                                             Update Password
@@ -190,15 +190,15 @@ class RestaurantProfile extends Component {
             <Form onSubmit={this.submitUpdateProfile} >
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
-                    <Form.Control type="email" placeholder="Email" onChange={this.emailChangeHandler} defaultValue={this.state.email} />
+                    <Form.Control type="email" placeholder="Email" onChange={this.emailChangeHandler} defaultValue={this.state.email} required/>
                 </Form.Group>
                 <Form.Group controlId="formBasicName">
                     <Form.Label>Restaurant Name</Form.Label>
-                    <Form.Control type="text" placeholder="Name" onChange={this.nameChangeHandler} defaultValue={this.state.name} />
+                    <Form.Control type="text" placeholder="Name" onChange={this.nameChangeHandler} defaultValue={this.state.name} required />
                 </Form.Group>
                 <Form.Group controlId="formLocation">
                     <Form.Label>Location</Form.Label>
-                    <Form.Control type="text" placeholder="Location" onChange={this.locationChangeHandler} defaultValue={this.state.location} />
+                    <Form.Control type="text" placeholder="Location" onChange={this.locationChangeHandler} defaultValue={this.state.location} required/>
                 </Form.Group>
                 <Form.Group controlId="formDescription">
                     <Form.Label>Description</Form.Label>

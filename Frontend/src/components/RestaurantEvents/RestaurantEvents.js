@@ -201,27 +201,27 @@ class RestaurantEvents extends Component {
                     <Form onSubmit={this.submitAddEvent} >
                         <Form.Group controlId="formName">
                             <Form.Label>Event Name</Form.Label>
-                            <Form.Control type="text" placeholder="Name" onChange={this.nameHandler} />
+                            <Form.Control type="text" placeholder="Name" onChange={this.nameHandler} required/>
                         </Form.Group>
                         <Form.Group controlId="Description">
                             <Form.Label>Description</Form.Label>
-                            <Form.Control type="text" placeholder="Description" onChange={this.descriptionHandler} />
+                            <Form.Control type="text" placeholder="Description" onChange={this.descriptionHandler} required/>
                         </Form.Group>
                         <Form.Group controlId="FormTime">
                             <Form.Label>Time</Form.Label>
-                            <Form.Control type="time" placeholder="Time" onChange={this.timeHandler} />
+                            <Form.Control type="time" placeholder="Time" onChange={this.timeHandler} required />
                         </Form.Group>
                         <Form.Group controlId="formDate">
                             <Form.Label>Date</Form.Label>
-                            <Form.Control type="date" placeholder="Date" onChange={this.dateHandler} />
+                            <Form.Control type="date" placeholder="Date" onChange={this.dateHandler} required/>
                         </Form.Group>
                         <Form.Group controlId="formLocation">
                             <Form.Label>Location</Form.Label>
-                            <Form.Control type="text" placeholder="Location" onChange={this.locationHandler} />
+                            <Form.Control type="text" placeholder="Location" onChange={this.locationHandler} required/>
                         </Form.Group>
                         <Form.Group controlId="formHashTag">
                             <Form.Label>Hashtags</Form.Label>
-                            <Form.Control type="text" placeholder="Hashtags" onChange={this.hashtagsHandler} />
+                            <Form.Control type="text" placeholder="Hashtags" onChange={this.hashtagsHandler} required/>
                         </Form.Group>
                         <Button variant="primary" type="submit">
                             Add

@@ -189,7 +189,7 @@ class Signup extends Component {
                     <Form onSubmit={this.submitCustomerSignup} >
                       <Form.Group controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" onChange={this.emailChangeHandler} />
+                        <Form.Control type="email" placeholder="Enter email" onChange={this.emailChangeHandler} required/>
                         <Form.Text className="text-muted">
                           We'll never share your email with anyone else.
                     </Form.Text>
@@ -197,15 +197,15 @@ class Signup extends Component {
 
                       <Form.Group controlId="formBasicPassword">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" onChange={this.passwordChangeHandler} />
+                        <Form.Control type="password" placeholder="Password" onChange={this.passwordChangeHandler} required />
                       </Form.Group>
                       <Form.Group controlId="formBasicFirstName">
                         <Form.Label>First Name</Form.Label>
-                        <Form.Control type="text" placeholder="First Name" onChange={this.firstnameChangeHandler} />
+                        <Form.Control type="text" placeholder="First Name" onChange={this.firstnameChangeHandler} required />
                       </Form.Group>
                       <Form.Group controlId="formBasicLastName">
                         <Form.Label>Last Name</Form.Label>
-                        <Form.Control type="text" placeholder="Last Name" onChange={this.lastnameChangeHandler} />
+                        <Form.Control type="text" placeholder="Last Name" onChange={this.lastnameChangeHandler}  required/>
                       </Form.Group>
                       <Button variant="primary" type="submit">
                         Submit
@@ -229,7 +229,7 @@ class Signup extends Component {
                     <Form onSubmit={this.submitRestaurantSignup} >
                       <Form.Group controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" onChange={this.emailChangeHandler} />
+                        <Form.Control type="email" placeholder="Enter email" onChange={this.emailChangeHandler} required />
                         <Form.Text className="text-muted">
                           We'll never share your email with anyone else.
                     </Form.Text>
@@ -237,15 +237,15 @@ class Signup extends Component {
 
                       <Form.Group controlId="formBasicPassword">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" onChange={this.passwordChangeHandler} />
+                        <Form.Control type="password" placeholder="Password" onChange={this.passwordChangeHandler} required />
                       </Form.Group>
                       <Form.Group controlId="formBasicRestaurantName">
                         <Form.Label>Restaurant Name</Form.Label>
-                        <Form.Control type="text" placeholder="Restaurant Name" onChange={this.restaurantnameChangeHandler} />
+                        <Form.Control type="text" placeholder="Restaurant Name" onChange={this.restaurantnameChangeHandler} required/>
                       </Form.Group>
                       <Form.Group controlId="formBasicLocation">
                         <Form.Label>Location</Form.Label>
-                        <Form.Control type="text" placeholder="Location" onChange={this.locationChangeHandler} />
+                        <Form.Control type="text" placeholder="Location" onChange={this.locationChangeHandler} required/>
                       </Form.Group>
                       <Button variant="primary" type="submit">
                         Submit

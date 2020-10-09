@@ -132,7 +132,7 @@ class CustomerMain extends Component {
                     <Form onSubmit={this.submitSearchEvent}>
                         <Form.Group controlId="formBasicEventName">
                             <Form.Label>Input Search Term</Form.Label>
-                            <Form.Control type="text" placeholder="event name" onChange={this.searchHandler} />
+                            <Form.Control type="text" placeholder="event name" onChange={this.searchHandler} required/>
                         </Form.Group>
                         <Form.Group controlId="exampleForm.ControlSelect1">
                             <Form.Label>Search Category</Form.Label>

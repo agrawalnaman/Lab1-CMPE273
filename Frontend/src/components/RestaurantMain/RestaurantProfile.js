@@ -142,6 +142,7 @@ class RestaurantProfile extends Component {
                     </h3>
                 ),
                 });
+               
              
             } else {
               this.setState({

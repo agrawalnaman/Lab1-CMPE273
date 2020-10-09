@@ -316,11 +316,11 @@ class CustomerProfile extends Component {
                         <Form.Row>
                             <Form.Group controlId="formBasicDOB">
                                 <Form.Label>Date of Birth</Form.Label>
-                                <Form.Control type="text" placeholder="Date Of Birth" onChange={this.dobChangeHandler} defaultValue={this.state.dob} />
+                                <Form.Control type="date" placeholder="Date Of Birth" onChange={this.dobChangeHandler} defaultValue={this.state.dob} />
                             </Form.Group>
                             <Form.Group controlId="formBasicPhone">
                                 <Form.Label>Phone</Form.Label>
-                                <Form.Control type="text" placeholder="Phone" onChange={this.phoneChangeHandler} defaultValue={this.state.phone} />
+                                <Form.Control type="tel" placeholder="Phone" onChange={this.phoneChangeHandler} defaultValue={this.state.phone} pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" />
                             </Form.Group>
                             <Form.Group controlId="formBasicNickName">
                                 <Form.Label>NickName</Form.Label>

@@ -13,10 +13,10 @@ var mysql = require('mysql');
 const { response } = require("express");
 
 var con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "root",
-  database: "Yelp"
+  host: "yelp-database-1.cawnaluhshex.us-west-2.rds.amazonaws.com",
+  user: "admin",
+  password: "namanagrawal",
+  database: "yelp1"
 });
 
 //use cors to allow cross origin resource sharing

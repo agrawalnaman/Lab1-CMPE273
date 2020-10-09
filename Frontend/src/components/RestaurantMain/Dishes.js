@@ -128,18 +128,7 @@ class Dishes extends Component {
                 console.log("Status Code : ", response.status);
                 if (response.status === 200) {
                     window.alert("Dish Edited Successfully");
-                } else {
-                    window.alert("Unable to edit dish!");
-
-                }
-            })
-            .catch((e) => {
-                debugger;
-                console.log("FAIL!!!");
-            });
-
-
-            var data1 = { params: { idRestaurants: +localStorage.getItem("r_id") } };
+                    var data1 = { params: { idRestaurants: +localStorage.getItem("r_id") } };
             axios.get("http://54.218.99.27:3001/getRestaurantDishes", data1).then((response) => {
                 //update the state with the response data
                 console.log(response.data);
@@ -155,6 +144,18 @@ class Dishes extends Component {
                 
                 });
             });
+                } else {
+                    window.alert("Unable to edit dish!");
+
+                }
+            })
+            .catch((e) => {
+                debugger;
+                console.log("FAIL!!!");
+            });
+
+
+            
     
     };
 

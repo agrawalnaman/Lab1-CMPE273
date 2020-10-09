@@ -134,6 +134,24 @@ class RestaurantEvents extends Component {
                 console.log("Status Code : ", response.status);
                 if (response.status === 200) {
                     window.alert("Event Added");
+                    var data1 = { params: { idRestaurants: +localStorage.getItem("r_id") } };
+                    axios.get("http://54.218.99.27:3001/getRestaurantEvents", data1).then((response) => {
+                        //update the state with the response data
+                        console.log(response.data);
+                        this.setState({
+                            events: response.data,
+                            addEventModal: false,
+                            name:"",
+                            description:"",
+                            time:"",
+                            date:"",
+                            location:"",
+                            hashtags:"",
+                            customerListModal:"",
+                            customerListEventID:"",
+                            customerList:[],
+                        });
+                    });
                 } else {
                     window.alert("unable Add Event");
 
@@ -144,24 +162,7 @@ class RestaurantEvents extends Component {
                 console.log("FAIL!!!");
             });
 
-            var data1 = { params: { idRestaurants: +localStorage.getItem("r_id") } };
-            axios.get("http://54.218.99.27:3001/getRestaurantEvents", data1).then((response) => {
-                //update the state with the response data
-                console.log(response.data);
-                this.setState({
-                    events: response.data,
-                    addEventModal: false,
-                    name:"",
-                    description:"",
-                    time:"",
-                    date:"",
-                    location:"",
-                    hashtags:"",
-                    customerListModal:"",
-                    customerListEventID:"",
-                    customerList:[],
-                });
-            });
+          
     };
 
 

@@ -205,7 +205,7 @@ class RestaurantProfile extends Component {
                 </Form.Group>
                 <Form.Group controlId="formDescription">
                     <Form.Label>Description</Form.Label>
-                    <Form.Control type="text" placeholder="Description" onChange={this.countryChangeHandler} defaultValue={this.state.description} />
+                    <Form.Control type="text" placeholder="Description" onChange={this.descriptionChangeHandler} defaultValue={this.state.description} />
                 </Form.Group>
                 <Form.Group controlId="formDescription">
                     <Form.Label>Timings</Form.Label>
